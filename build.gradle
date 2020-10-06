@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+apply from: "gradle/artifactory.gradle"
+
+group 'io.spring.autoln'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform("org.junit:junit-bom:5.6.2")
+    testImplementation "org.jsoup:jsoup:1.13.1"
+    testImplementation "org.assertj:assertj-core:3.15.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testImplementation "org.junit.jupiter:junit-jupiter-params"
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}
