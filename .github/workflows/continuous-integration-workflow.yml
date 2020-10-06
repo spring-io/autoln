@@ -2,8 +2,8 @@ name: CI
 
 on:
   push:
-    branches:
-      - master
+    branches-ignore:
+      - "gh-*"
   schedule:
     - cron: '0 10 * * *' # Once per day at 10am UTC
 
