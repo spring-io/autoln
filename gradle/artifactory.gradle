@@ -15,26 +15,28 @@
  */
 
 def isSnapshot = version?.matches(/^.*?SNAPSHOT$/)
+def isMilestone = !isSnapshot && version?.matches(/^.*?(M\d+|RC\d+)/)
 
 artifactory {
     contextUrl = 'https://repo.spring.io'
     publish {
         repository {
-            repoKey = isSnapshot ? 'libs-snapshot-local' : 'libs-release-local'
+            repoKey = isSnapshot ? 'libs-snapshot-local' : isMilestone ? 'libs-milestone-local' : 'libs-release-local'
             if(project.hasProperty('artifactoryUsername')) {
                 username = artifactoryUsername
                 password = artifactoryPassword
             }
         }
         defaults {
-            publications(publishing.publications.names as String[])
+            publishConfigs('archives')
         }
     }
 }
 
-project.tasks.register('deployArtifacts', new Action<Task>() {
-    @Override
-    void execute(Task deployArtifacts) {
-        deployArtifacts.dependsOn project.tasks.artifactoryPublish
-    }
-})
+artifactoryPublish {
+    publishIvy false
+    properties = [
+            'bintray.package': "${project.group}:${name}",
+            'bintray.version': "${project.version}"
+    ]
+}

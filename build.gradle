@@ -1,5 +1,5 @@
 plugins {
-    id "com.jfrog.artifactory" version '4.9.10'
+    id "com.jfrog.artifactory" version '4.17.2'
     id 'java'
     id 'maven-publish'
 }
