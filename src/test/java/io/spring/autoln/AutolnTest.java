@@ -129,6 +129,13 @@ class AutolnTest {
 	}
 
 	@Test
+	void findLinksWhenEmpty() {
+		Autoln autoln = new Autoln();
+		List<Ln> actual = autoln.findLinks(new File("src/test/resources/missing"));
+		assertThat(actual).isEmpty();
+	}
+
+	@Test
 	void printLinks() {
 		String path = "path";
 		Autoln autoln = new Autoln();

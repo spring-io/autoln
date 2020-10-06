@@ -30,6 +30,9 @@ public class Autoln {
 
 	public List<Ln> findLinks(File path) {
 		File[] dirs = path.listFiles(File::isDirectory);
+		if (dirs == null) {
+			return Collections.emptyList();
+		}
 		Map<String,Version> generationToMaxVersion = new HashMap<>();
 		for (File dir : dirs) {
 			if (!Version.isValid(dir.getName())) {
