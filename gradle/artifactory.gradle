@@ -20,7 +20,7 @@ artifactory {
     contextUrl = 'https://repo.spring.io'
     publish {
         repository {
-            repoKey = isSnapshot ? 'snapshot-local' : 'release-local'
+            repoKey = isSnapshot ? 'libs-snapshot-local' : 'libs-release-local'
             if(project.hasProperty('artifactoryUsername')) {
                 username = artifactoryUsername
                 password = artifactoryPassword
