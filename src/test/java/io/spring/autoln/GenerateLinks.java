@@ -15,11 +15,13 @@ import java.util.stream.Collectors;
 public class GenerateLinks {
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(getVersionsFromUrl("https://docs.spring.io/spring-security/site/docs/"));
+		mkDirsForProject("spring-framework");
+		mkDirsForProject("spring-boot");
+		mkDirsForProjectUrl("spring-security", "https://docs.spring.io/spring-security/site/docs/");
 	}
 
 	static void mkDirsForProject(String project) throws IOException {
-		String url = "https://docs.spring.io/" + project + "/site/docs/";
+		String url = "https://docs.spring.io/" + project + "/docs/";
 		mkDirsForProjectUrl(project, url);
 	}
 
@@ -28,6 +30,7 @@ public class GenerateLinks {
 		for (String version : versions) {
 			File file = new File("src/test/resources/docs/" + project, version);
 			file.mkdirs();
+			new File(file, ".empty_dir").createNewFile();
 		}
 	}
 
