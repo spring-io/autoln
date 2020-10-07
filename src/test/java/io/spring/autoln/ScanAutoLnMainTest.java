@@ -12,7 +12,7 @@ class ScanAutoLnMainTest {
 
 	@Test
 	void findAutoLnScanParents() throws IOException  {
-		List<File> parents = ScanAutoLnMain.findAutoLnScanParents(new File("src/test/resources/"));
+		List<File> parents = ScanAutoLnMain.findAutoLnScanParents(new File("src/test/resources/"), null);
 		assertThat(parents).containsExactly(new File("src/test/resources/docs/spring-framework"));
 	}
 }

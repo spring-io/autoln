@@ -157,7 +157,8 @@ class AutolnTest {
 		try {
 			autoln.createLinks(links);
 
-			assertThat(Files.readSymbolicLink(from.toPath())).isEqualByComparingTo(to.toPath());
+			assertThat(Files.readSymbolicLink(from.toPath())).isRelative();
+			assertThat(Files.readSymbolicLink(from.toPath())).isEqualTo(from.toPath().relativize(to.toPath()));
 		}
 		finally {
 			from.delete();
