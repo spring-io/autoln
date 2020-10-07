@@ -1,5 +1,7 @@
 package io.spring.autoln;
 
+import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,40 +11,49 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@CommandLine.Command(defaultValueProvider = ScanAutoLnMain.CurrentDirectoryDefaultValueProvider.class)
 public class ScanAutoLnMain {
+	@CommandLine.Option(names = "--create-links", description = "flag to indicate that the links should be created rather than just printed out", defaultValue = "false")
+	private boolean createLinks;
+
+	@CommandLine.Parameters(paramLabel = "ROOT_DIR", description = "the directory to scan for creating symlinks")
+	private File root;
+
+	@CommandLine.Option(names = "--maxdepth", description = "descend at most maxdepth levels of a directories to find .autoln-scan")
+	private Integer maxDepth;
+
+	@CommandLine.Option(names = {"-h", "--help"}, description = "display help")
+	private boolean help;
 
 	/**
 	 * Finds all directories containing a file named ".autoln-scan"
 	 * @param root
 	 * @return
-	 * @throws IOException
 	 */
-	static List<File> findAutoLnScanParents(File root) throws IOException {
-		return Files.walk(root.toPath())
+	static List<File> findAutoLnScanParents(File root, Integer maxDepth)  {
+		Stream<Path> files;
+		try {
+			files = maxDepth == null ?
+					Files.walk(root.toPath()) :
+					Files.walk(root.toPath(), maxDepth);
+		}
+		catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+		return files
 			.filter(path -> path.toFile().getName().equals(".autoln-scan"))
 			.map(marker -> marker.getParent().toFile())
 			.collect(Collectors.toList());
 	}
 
-	public static void main(String[] args) throws IOException {
-		if (args.length == 0 || args.length > 2) {
-			usage();
-		}
-
-		File root = null;
-		boolean createLinks = false;
-		if (args.length == 1) {
-			root = new File(args[0]);
-		} else if (args[0].equals("--create-links")){
-			root = new File(args[1]);
-			createLinks = true;
-		} else {
-			usage();
-		}
-
+	public void run() {
 		Autoln autoln = new Autoln();
-		List<File> projects = findAutoLnScanParents(root);
+		List<File> projects = findAutoLnScanParents(root, maxDepth);
+		if (projects.isEmpty()) {
+			System.out.println("No projects contained .autoln-scan within " + root + "with max-depth of " + maxDepth);
+		}
 		for(File project : projects) {
+			System.out.println("Finding symlinks for " + project);
 			List<Ln> links = autoln.findLinks(project);
 			if (createLinks) {
 				autoln.createLinks(links);
@@ -52,7 +63,26 @@ public class ScanAutoLnMain {
 		}
 	}
 
-	private static void usage() {
-		throw new IllegalArgumentException("Expected arguments [--create-links] root-directory");
+	public static void main(String[] args) {
+		ScanAutoLnMain main = CommandLine.populateCommand(new ScanAutoLnMain(), args);
+		if (main.help) {
+			CommandLine.usage(main, System.out);
+		} else {
+			System.out.println("Running...");
+			main.run();
+		}
+	}
+
+	static class CurrentDirectoryDefaultValueProvider implements CommandLine.IDefaultValueProvider {
+
+		@Override
+		public String defaultValue(CommandLine.Model.ArgSpec argSpec) throws Exception {
+			if (argSpec.type().equals(File.class)) {
+				return System.getProperty("user.dir");
+			}
+			else {
+				return argSpec.defaultValue();
+			}
+		}
 	}
 }

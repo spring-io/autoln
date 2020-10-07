@@ -1,18 +1,19 @@
 plugins {
-    id "com.jfrog.artifactory" version '4.17.2'
-    id 'java'
-    id 'maven-publish'
+    id "application"
+    id "com.jfrog.artifactory" version "4.17.2"
+    id "java"
+    id "maven-publish"
 }
 
 apply from: "gradle/artifactory.gradle"
 
-group 'io.spring.autoln'
+group "io.spring.autoln"
 
 repositories {
     mavenCentral()
 }
-
 dependencies {
+    implementation "info.picocli:picocli:4.5.1"
     testImplementation platform("org.junit:junit-bom:5.6.2")
     testImplementation "org.jsoup:jsoup:1.13.1"
     testImplementation "org.assertj:assertj-core:3.15.0"
@@ -20,6 +21,10 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-params"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+}
+
+application {
+    mainClass = "io.spring.autoln.ScanAutoLnMain"
 }
 
 tasks.withType(Test).configureEach {
