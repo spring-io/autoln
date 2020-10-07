@@ -143,7 +143,7 @@ class AutolnTest {
 		links.add(new Ln(new File(path, "1.0.x"), new File(path, "1.0.2")));
 		StringWriter writer = new StringWriter();
 		autoln.printLinks(new PrintWriter(writer), links);
-		assertThat(writer.toString()).contains("path/1.0.x => path/1.0.2");
+		assertThat(writer.toString()).contains("path/1.0.x => 1.0.2");
 	}
 
 	@Test
@@ -158,7 +158,7 @@ class AutolnTest {
 			autoln.createLinks(links);
 
 			assertThat(Files.readSymbolicLink(from.toPath())).isRelative();
-			assertThat(Files.readSymbolicLink(from.toPath())).isEqualTo(from.toPath().relativize(to.toPath()));
+			assertThat(Files.readSymbolicLink(from.toPath())).isEqualTo(from.toPath().getParent().relativize(to.toPath()));
 		}
 		finally {
 			from.delete();
@@ -167,7 +167,7 @@ class AutolnTest {
 
 	private void printExpectedLinks(List<Ln> links) {
 		for(Ln ln : links) {
-			System.out.println("expected.add(new Ln(new File(path, \"" + ln.getFrom().getName() + "\"), new File(path, \"" + ln.getTo().getName() + "\")));");
+			System.out.println("expected.add(new Ln(new File(path, \"" + ln.getFrom().toFile().getName() + "\"), new File(path, \"" + ln.getTo().toFile().getName() + "\")));");
 		}
 	}
 }

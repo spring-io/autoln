@@ -1,29 +1,38 @@
 package io.spring.autoln;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Objects;
 
 public class Ln {
-	private final File from;
+	private final Path from;
 
-	private final File to;
+	private final Path to;
 
 	public Ln(File from, File to) {
+		this(from.toPath(), to.toPath());
+	}
+
+	public Ln(Path from, Path to) {
 		this.from = from;
 		this.to = to;
 	}
 
-	public File getFrom() {
+	public Path getFrom() {
 		return from;
 	}
 
-	public File getTo() {
+	public Path getTo() {
 		return to;
+	}
+
+	public Path getRelativeTo() {
+		return getFrom().getParent().relativize(getTo());
 	}
 
 	@Override
 	public String toString() {
-		return from + " => " + to;
+		return from + " => " + getRelativeTo();
 	}
 
 	@Override

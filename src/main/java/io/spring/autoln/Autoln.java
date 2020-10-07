@@ -21,8 +21,8 @@ public class Autoln {
 
 	public void createLinks(List<Ln> links) {
 		for (Ln link : links) {
-			Path from = link.getFrom().toPath();
-			Path to = from.relativize(link.getTo().toPath());
+			Path from = link.getFrom();
+			Path to = link.getRelativeTo();
 			try {
 				Files.deleteIfExists(from);
 				Files.createSymbolicLink(from, to);
