@@ -19,12 +19,17 @@ public class Autoln {
 		writer.flush();
 	}
 
-	public void createLinks(List<Ln> links) throws IOException {
+	public void createLinks(List<Ln> links) {
 		for (Ln link : links) {
 			Path from = link.getFrom().toPath();
 			Path to = link.getTo().toPath();
-			Files.deleteIfExists(from);
-			Files.createSymbolicLink(from, to);
+			try {
+				Files.deleteIfExists(from);
+				Files.createSymbolicLink(from, to);
+			}
+			catch (IOException ex) {
+				throw new RuntimeException(ex);
+			}
 		}
 	}
 
