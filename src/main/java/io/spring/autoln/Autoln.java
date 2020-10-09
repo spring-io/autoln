@@ -34,6 +34,12 @@ public class Autoln {
 	}
 
 	public List<Ln> findLinks(File path) {
+		if (!path.exists()) {
+			throw new RuntimeException("Directory not found " + path);
+		}
+		if (!path.isDirectory()) {
+			throw new RuntimeException(path + " is not a Directory");
+		}
 		File[] dirs = path.listFiles(File::isDirectory);
 		if (dirs == null) {
 			return Collections.emptyList();

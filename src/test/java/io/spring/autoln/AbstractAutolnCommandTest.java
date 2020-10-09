@@ -8,11 +8,11 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ScanAutoLnMainTest {
+class AbstractAutolnCommandTest {
 
 	@Test
 	void findAutoLnScanParents() throws IOException  {
-		List<File> parents = ScanAutoLnMain.findAutoLnScanParents(new File("src/test/resources/"), null);
+		List<File> parents = AbstractAutolnCommand.scanForProjects(new File("src/test/resources/"), null);
 		assertThat(parents).containsExactly(new File("src/test/resources/docs/spring-framework"));
 	}
 }

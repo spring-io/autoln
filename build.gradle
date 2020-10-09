@@ -24,7 +24,13 @@ dependencies {
 }
 
 application {
-    mainClass = "io.spring.autoln.ScanAutoLnMain"
+    mainClass = "io.spring.autoln.AutolnCommand"
+}
+
+run {
+    if (project.hasProperty("args")) {
+        args += project.args
+    }
 }
 
 tasks.withType(Test).configureEach {
