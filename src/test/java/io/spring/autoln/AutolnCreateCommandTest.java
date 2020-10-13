@@ -5,6 +5,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static io.spring.autoln.ExtendedPathAssert.assertThatPath;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -80,7 +81,7 @@ class AutolnCreateCommandTest {
 
 	@Test
 	void createWhenValidSuccess(@TempDir Path tempDir) throws IOException  {
-		Path p = Path.of("src/test/resources");
+		Path p = Paths.get("src/test/resources");
 		Path projectDir = tempDir.resolve(p.getFileName());
 		FileSystemUtils.copyRecursively(p, projectDir);
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
