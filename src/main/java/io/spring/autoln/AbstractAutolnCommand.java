@@ -60,7 +60,7 @@ class AbstractAutolnCommand {
 		}
 		List<File> projects = scanForProjects(scanOptions.scanDir, scanOptions.maxDepth);
 		if (projects.isEmpty()) {
-			stdout().println("No projects contained .autoln-scan within " + scanOptions.scanDir + "with max-depth of " + scanOptions.maxDepth);
+			stdout().println("No projects contained .autoln-scan within " + scanOptions.scanDir + "with maxdepth of " + scanOptions.maxDepth);
 		}
 		return projects;
 	}

@@ -3,8 +3,11 @@ package io.spring.autoln;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,7 +27,7 @@ public class Autoln {
 			Path from = link.getFrom();
 			Path to = link.getRelativeTo();
 			try {
-				Files.deleteIfExists(from);
+				deleteRecursively(from);
 				Files.createSymbolicLink(from, to);
 			}
 			catch (IOException ex) {
@@ -35,10 +38,10 @@ public class Autoln {
 
 	public List<Ln> findLinks(File path) {
 		if (!path.exists()) {
-			throw new RuntimeException("Directory not found " + path);
+			throw new IllegalArgumentException("Directory not found " + path);
 		}
 		if (!path.isDirectory()) {
-			throw new RuntimeException(path + " is not a Directory");
+			throw new IllegalArgumentException(path + " is not a Directory");
 		}
 		File[] dirs = path.listFiles(File::isDirectory);
 		if (dirs == null) {
@@ -88,5 +91,38 @@ public class Autoln {
 		File from = new File(path, fromName);
 		File to = new File(path, version.getVersion());
 		return new Ln(from, to);
+	}
+
+
+	/**
+	 * Delete the supplied {@link File} &mdash; for directories,
+	 * recursively delete any nested directories or files as well.
+	 * @param root the root {@code File} to delete
+	 * @return {@code true} if the {@code File} existed and was deleted,
+	 * or {@code false} if it did not exist
+	 * @throws IOException in the case of I/O errors
+	 * @since 5.0
+	 */
+	public static boolean deleteRecursively(Path root) throws IOException {
+		if (root == null) {
+			return false;
+		}
+		if (!Files.exists(root)) {
+			return false;
+		}
+
+		Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+				Files.delete(file);
+				return FileVisitResult.CONTINUE;
+			}
+			@Override
+			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+				Files.delete(dir);
+				return FileVisitResult.CONTINUE;
+			}
+		});
+		return true;
 	}
 }

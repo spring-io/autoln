@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 class AutolnTest {
 
@@ -131,8 +132,8 @@ class AutolnTest {
 	@Test
 	void findLinksWhenEmpty() {
 		Autoln autoln = new Autoln();
-		List<Ln> actual = autoln.findLinks(new File("src/test/resources/missing"));
-		assertThat(actual).isEmpty();
+		assertThatIllegalArgumentException()
+			.isThrownBy(() -> autoln.findLinks(new File("src/test/resources/missing")));
 	}
 
 	@Test
