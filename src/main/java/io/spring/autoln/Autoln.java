@@ -3,10 +3,7 @@ package io.spring.autoln;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -103,11 +100,11 @@ public class Autoln {
 	 * @throws IOException in the case of I/O errors
 	 * @since 5.0
 	 */
-	public static boolean deleteRecursively(Path root) throws IOException {
+	static boolean deleteRecursively(Path root) throws IOException {
 		if (root == null) {
 			return false;
 		}
-		if (!Files.exists(root)) {
+		if (!Files.exists(root, LinkOption.NOFOLLOW_LINKS)) {
 			return false;
 		}
 

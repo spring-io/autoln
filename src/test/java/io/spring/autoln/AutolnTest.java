@@ -166,6 +166,35 @@ class AutolnTest {
 		}
 	}
 
+	@Test
+	void deleteRecursivelySymlinkToMissing(@TempDir Path tempDir) throws IOException {
+		Path link = tempDir.resolve("1.1.x");
+		Files.createSymbolicLink(link, tempDir.resolve("missing"));
+		assertThat(Autoln.deleteRecursively(link)).isTrue();
+		assertThat(link).doesNotExist();
+	}
+
+	@Test
+	void deleteRecursivelyDoesNotDeleteContentOfSymlinkTo(@TempDir Path tempDir) throws IOException {
+		Path link = tempDir.resolve("1.1.x");
+		Path to = tempDir.resolve("to");
+		to.toFile().mkdirs();
+		Path file = to.resolve("file");
+		file.toFile().createNewFile();
+		Files.createSymbolicLink(link, to);
+		assertThat(Autoln.deleteRecursively(link)).isTrue();
+		assertThat(to).exists();
+		assertThat(file).exists();
+	}
+
+	@Test
+	void deleteRecursivelyDoesNotExist(@TempDir Path tempDir) throws IOException {
+		Path missing = tempDir.resolve("missing");
+		assertThat(missing).doesNotExist();
+		assertThat(Autoln.deleteRecursively(missing)).isFalse();
+		assertThat(missing).doesNotExist();
+	}
+
 	private void printExpectedLinks(List<Ln> links) {
 		for(Ln ln : links) {
 			System.out.println("expected.add(new Ln(new File(path, \"" + ln.getFrom().toFile().getName() + "\"), new File(path, \"" + ln.getTo().toFile().getName() + "\")));");
