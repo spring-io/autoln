@@ -55,7 +55,6 @@ Before using `autoln` to create your links, it is a good idea to print out the l
 This can be done using the `print` sub-command with the `--project-dir` argument.
 For example, this would print out the links that would be created for the spring-security project:
 
-[source,bash]
 ----
 autoln print --project-dir="/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security"
 
@@ -95,7 +94,6 @@ This is useful since piping the results to `autoln --project-dir` would create a
 To further speed things up , the `--scan-dir` argument is typically accompanied by the `--maxdepth` argument which specifies how deep to search for the `.autoln-scan` marker files.
 An example can be found below:
 
-[source,bash]
 ----
 autoln print --scan-dir="/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/" --maxdepth=2
 
@@ -157,7 +155,6 @@ Once you have <<print,printed>> the links to verify they are what you want, you 
 This can be done using the `create` sub-command with the `--project-dir` argument.
 For example, this would create the links that would be created for the spring-security project:
 
-[source,bash]
 ----
 Creating Symlinks for project at '/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security'
 $ ls -alt /opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security
@@ -178,7 +175,6 @@ This is useful since piping the results to `autoln --project-dir` would create a
 To further speed things up , the `--scan-dir` argument is typically accompanied by the `--maxdepth` argument which specifies how deep to search for the `.autoln-scan` marker files.
 An example can be found below:
 
-[source,bash]
 ----
 autoln create --scan-dir="/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/" --maxdepth=2
 
