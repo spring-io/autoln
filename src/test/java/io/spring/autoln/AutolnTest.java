@@ -83,7 +83,7 @@ class AutolnTest {
 		expected.add(new Ln(new File(path, "2.3.x-SNAPSHOT"), new File(path, "2.3.5.BUILD-SNAPSHOT")));
 		expected.add(new Ln(new File(path, "2.4.x"), new File(path, "2.4.0-M3")));
 		expected.add(new Ln(new File(path, "2.4.x-SNAPSHOT"), new File(path, "2.4.0-SNAPSHOT")));
-		expected.add(new Ln(new File(path, "current"), new File(path, "2.4.0-M3")));
+		expected.add(new Ln(new File(path, "current"), new File(path, "2.3.4.RELEASE")));
 		expected.add(new Ln(new File(path, "current-SNAPSHOT"), new File(path, "2.4.0-SNAPSHOT")));
 
 		List<Ln> actual = autoln.findLinks(new File(path));
@@ -121,7 +121,7 @@ class AutolnTest {
 		expected.add(new Ln(new File(path, "5.2.x-SNAPSHOT"), new File(path, "5.2.10.BUILD-SNAPSHOT")));
 		expected.add(new Ln(new File(path, "5.3.x"), new File(path, "5.3.0-RC1")));
 		expected.add(new Ln(new File(path, "5.3.x-SNAPSHOT"), new File(path, "5.3.0-SNAPSHOT")));
-		expected.add(new Ln(new File(path, "current"), new File(path, "5.3.0-RC1")));
+		expected.add(new Ln(new File(path, "current"), new File(path, "5.2.9.RELEASE")));
 		expected.add(new Ln(new File(path, "current-SNAPSHOT"), new File(path, "5.3.0-SNAPSHOT")));
 
 		List<Ln> actual = autoln.findLinks(new File(path));

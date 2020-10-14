@@ -70,7 +70,7 @@ public class Autoln {
 			if (version.isSnapshot()) {
 				currentSnapshot = version;
 			}
-			else {
+			else if(version.isRelease()) {
 				current = version;
 			}
 			results.add(toLn(path, version, version.getGeneration()));

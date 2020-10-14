@@ -116,7 +116,7 @@ class AutolnCreateCommandTest {
 		assertThatPath(springFrameworkProject.resolve("5.2.x-SNAPSHOT")).isRelativeSymlinkTo("5.2.10.BUILD-SNAPSHOT");
 		assertThatPath(springFrameworkProject.resolve("5.3.x")).isRelativeSymlinkTo("5.3.0-RC1");
 		assertThatPath(springFrameworkProject.resolve("5.3.x-SNAPSHOT")).isRelativeSymlinkTo("5.3.0-SNAPSHOT");
-		assertThatPath(springFrameworkProject.resolve("current")).isRelativeSymlinkTo("5.3.0-RC1");
+		assertThatPath(springFrameworkProject.resolve("current")).isRelativeSymlinkTo("5.2.9.RELEASE");
 		assertThatPath(springFrameworkProject.resolve("current-SNAPSHOT")).isRelativeSymlinkTo("5.3.0-SNAPSHOT");
 	}
 

@@ -149,7 +149,7 @@ class AutolnPrintCommandTest {
 						"src/test/resources/docs/spring-framework/5.2.x-SNAPSHOT => 5.2.10.BUILD-SNAPSHOT\n" +
 						"src/test/resources/docs/spring-framework/5.3.x => 5.3.0-RC1\n" +
 						"src/test/resources/docs/spring-framework/5.3.x-SNAPSHOT => 5.3.0-SNAPSHOT\n" +
-						"src/test/resources/docs/spring-framework/current => 5.3.0-RC1\n" +
+						"src/test/resources/docs/spring-framework/current => 5.2.9.RELEASE\n" +
 						"src/test/resources/docs/spring-framework/current-SNAPSHOT => 5.3.0-SNAPSHOT\n");
 		// @formatter:on
 	}
