@@ -130,6 +130,23 @@ class AutolnTest {
 	}
 
 	@Test
+	void cloud() {
+		String path = "src/test/resources/docs/spring-cloud";
+		Autoln autoln = new Autoln();
+		List<Ln> expected = new ArrayList<>();
+		expected.add(new Ln(new File(path, "Hoxton.x-SNAPSHOT"), new File(path, "Hoxton.BUILD-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "Hoxton.x"), new File(path, "Hoxton.SR8")));
+		expected.add(new Ln(new File(path, "2020.0.x"), new File(path, "2020.0.0-M4")));
+		expected.add(new Ln(new File(path, "2020.0.x-SNAPSHOT"), new File(path, "2020.0.0-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "current"), new File(path, "Hoxton.SR8")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT"), new File(path, "2020.0.0-SNAPSHOT")));
+
+		List<Ln> actual = autoln.findLinks(new File(path));
+
+		assertThat(actual).containsExactlyElementsOf(expected);
+	}
+
+	@Test
 	void findLinksWhenEmpty() {
 		Autoln autoln = new Autoln();
 		assertThatIllegalArgumentException()

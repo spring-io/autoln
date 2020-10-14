@@ -15,9 +15,10 @@ import java.util.stream.Collectors;
 public class GenerateLinks {
 
 	public static void main(String[] args) throws Exception {
-		mkDirsForProject("spring-framework");
-		mkDirsForProject("spring-boot");
-		mkDirsForProjectUrl("spring-security", "https://docs.spring.io/spring-security/site/docs/");
+//		mkDirsForProject("spring-framework");
+//		mkDirsForProject("spring-boot");
+		mkDirsForProject("spring-cloud");
+//		mkDirsForProjectUrl("spring-security", "https://docs.spring.io/spring-security/site/docs/");
 	}
 
 	static void mkDirsForProject(String project) throws IOException {

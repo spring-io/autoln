@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 class Version implements Comparable<Version> {
 	private static final Pattern VERSION_PATTERN = Pattern.compile("^(?<major>\\d+)\\.(?<minor>\\d+)\\.\\d+(?:(?:\\.BUILD|\\.CI)?-SNAPSHOT|[\\.\\-]M\\d+|[\\.\\-]RC\\d+|\\.RELEASE)?");
 
+	private static final Pattern LEGACY_RELEASE_TRAIN_VERSION_PATTERN = Pattern.compile("^(?<name>[A-Z][a-zA-Z]+)(?:(?:\\.BUILD|\\.CI)?-SNAPSHOT|[\\.\\-]M\\d+|[\\.\\-]RC\\d+|\\.RELEASE|[\\.\\-]SR\\d+)");
+
 	private static final Pattern ALL_DIGITS_PATTERN = Pattern.compile("^\\d+$");
 
 	private final String version;
@@ -18,6 +20,14 @@ class Version implements Comparable<Version> {
 	}
 
 	public boolean isGreaterThan(Version version) {
+		boolean isLegacy = isLegacyReleaseTrain(this.version);
+		boolean isThatLegacy = isLegacyReleaseTrain(version.version);
+		if (isLegacy && !isThatLegacy) {
+			return false;
+		}
+		if (!isLegacy && isThatLegacy) {
+			return true;
+		}
 		String[] otherParts = version.getVersion().split("[\\.\\-]");
 		String[] parts = getVersion().split("[\\.\\-]");
 		for (int i = 0; i < parts.length; i++) {
@@ -70,7 +80,7 @@ class Version implements Comparable<Version> {
 	}
 
 	public String getGeneration() {
-		return this.version.replaceFirst("^(\\d+\\.\\d+)\\..*?(\\-SNAPSHOT)?$", "$1.x$2");
+		return this.version.replaceFirst("^(\\d+\\.\\d+|[A-Z][a-zA-Z]+)\\..*?(\\-SNAPSHOT)?$", "$1.x$2");
 	}
 
 	public boolean isSnapshot() {
@@ -114,7 +124,11 @@ class Version implements Comparable<Version> {
 		if (version.isEmpty()) {
 			return false;
 		}
-		return VERSION_PATTERN.matcher(version).matches();
+		return VERSION_PATTERN.matcher(version).matches() || isLegacyReleaseTrain(version);
+	}
+
+	private static boolean isLegacyReleaseTrain(String version) {
+		return LEGACY_RELEASE_TRAIN_VERSION_PATTERN.matcher(version).matches();
 	}
 
 	public static Version parse(String version) {
