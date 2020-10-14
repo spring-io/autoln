@@ -3,6 +3,7 @@ plugins {
     id "com.jfrog.artifactory" version "4.17.2"
     id "java"
     id "maven-publish"
+    id 'org.asciidoctor.jvm.convert' version '3.1.0'
 }
 
 apply from: "gradle/artifactory.gradle"
@@ -12,7 +13,9 @@ group "io.spring.autoln"
 repositories {
     mavenCentral()
 }
+
 dependencies {
+    annotationProcessor "info.picocli:picocli-codegen:4.5.1"
     implementation "info.picocli:picocli:4.5.1"
     testImplementation platform("org.junit:junit-bom:5.6.2")
     testImplementation "org.jsoup:jsoup:1.13.1"
@@ -31,6 +34,24 @@ run {
     if (project.hasProperty("args")) {
         args += project.args
     }
+}
+
+ext {
+    mainClassName = "io.spring.autoln.AutolnCommand"
+}
+
+task generateManpageAsciiDoc(type: JavaExec) {
+    dependsOn(classes)
+    group = "Documentation"
+    description = "Generate AsciiDoc manpage"
+    classpath(configurations.compile, configurations.annotationProcessor, sourceSets.main.runtimeClasspath)
+    main 'picocli.codegen.docgen.manpage.ManPageGenerator'
+    args project.ext.mainClassName, "--outdir=${project.buildDir}/generated-picocli-docs", "-v", "--template-dir=src/docs/mantemplates"
+}
+
+asciidoctor {
+    sourceDir file("${project.buildDir}/generated-picocli-docs")
+    outputDir file("${project.buildDir}/docs")
 }
 
 tasks.withType(Test).configureEach {
