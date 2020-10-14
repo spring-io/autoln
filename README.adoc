@@ -2,16 +2,16 @@ image::https://github.com/spring-io/autoln/workflows/CI/badge.svg[Build Status,l
 
 = autoln
 
-The autoln script keeps symbolic links to a project's docs and/or schemas to be kept up to date.
-For example, if the latest build of Spring Framework is https://docs.spring.io/spring-framework/docs/5.2.9.RELEASE/spring-framework-reference/[5.2.9.RELEASE] it makes it easier for users to refer to the docs using a symlink of https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/[current] and https://docs.spring.io/spring-framework/docs/5.2.x/spring-framework-reference/[5.2.x].
-When the Spring 5.2.9.RELEASE release is performed, the autoln script can ensure the links are automatically updated so users do not need to update bookmarks.
+The `autoln` command keeps generational symbolic links to a project's docs and/or schemas to be kept up to date.
+For example, if the latest build of Spring Framework is `5.2.9.RELEASE` it makes it easier for users to refer to the docs using a symlink of https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/[current] and https://docs.spring.io/spring-framework/docs/5.2.x/spring-framework-reference/[5.2.x].
+When the Spring `5.2.9.RELEASE` release is performed, the `autoln` command can ensure the links are automatically updated so users do not need to update bookmarks.
 
 == autoln generated links
 
-Below is a list of supported symbolic links that are generated when using autoln.
+Below is a list of supported symbolic links that are generated when using `autoln`.
 The links can be enabled for a project's docs and/or schema.
 
-* `current` the latest stable build. This is defined as the largest version number ending in `.RELEASE` or not ending in a number.
+* `current` the latest stable build. This is defined as the largest version number ending in `.RELEASE` or ending in a number.
 * `current-SNAPSHOT` the most recent snapshot. This is defined as the largest version number ending in `CI-SNAPSHOT`, `BUILD-SNAPSHOT`, or `-SNAPSHOT`.
 * `<major>.<minor>.x` the most recently released version starting with `<major>.<minor>`.
 This reference can refer to a milestone build (in the event there are no builds that end in `.RELEASE` or a number), but will not refer to a snapshot.
@@ -22,31 +22,170 @@ For example, to get the most recently snapshot of 5.2, one could use the link `5
 If a project uses a different naming convention, then a one-time link pointing to the links updated by the autorepo script can be created.
 For example, if the project uses ga instead of current, a link named ga pointing to current could be created.
 
-== Previewing autoln
+== subcommands
 
-Since autoln impacts released resources it is best to preview what autoln will do before <<Activating autoln>> it on a particular project.
-This can be done by logging onto docs.spring.io and running autoln.
+`autoln` supports two subcommands
 
-<pre><code>$ cd /var/www/domains/springsource.org/static/autorepo_script
-$ php testlinks.php
+* <<print>>
+* <<create>>
+
+== print
+
+autoln-print - Use to print out the symlinks that would be created by the `autoln` command.
+
+*autoln print* [*-hV*] (*--project-dir*=_<projectDir>_ | (*--scan-dir*=_<scanDir>_
+[*--maxdepth*=_<maxDepth>_]))
+
+*-h*, *--help*::
+Show this help message and exit.
+
+*--maxdepth*=_<maxDepth>_::
+the maxdepth levels of a directories to scan when using scan-dir option
+
+*--project-dir*=_<projectDir>_::
+The directory that should be processed. No marker file is necessary
+
+*--scan-dir*=_<scanDir>_::
+Indicates that each subdirectory of the scanDir that contains .autoln-scan should be processed as a project-dir
+
+*-V*, *--version*::
+Print version information and exit.
+
+Before using `autoln` to create your links, it is a good idea to print out the links it will create.
+This can be done using the `print` sub-command with the `--project-dir` argument.
+For example, this would print out the links that would be created for the spring-security project:
+
+[source,bash]
+----
+autoln print --project-dir="/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security"
+
+Symlinks for project at '/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security'
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/2.0.x => 2.0.8.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.0.x => 3.0.8.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.0.x-SNAPSHOT => 3.0.9.CI-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.1.x => 3.1.7.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.1.x-SNAPSHOT => 3.1.8.CI-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.2.x => 3.2.10.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.2.x-SNAPSHOT => 3.2.11.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.0.x => 4.0.4.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.0.x-SNAPSHOT => 4.0.5.CI-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.1.x => 4.1.5.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.1.x-SNAPSHOT => 4.1.6.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.2.x-SNAPSHOT => 4.2.19.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.2.x => 4.2.19.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.0.x => 5.0.19.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.0.x-SNAPSHOT => 5.0.20.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.1.x => 5.1.13.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.1.x-SNAPSHOT => 5.1.14.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.2.x => 5.2.7.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.2.x-SNAPSHOT => 5.2.8.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.3.x => 5.3.5.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.3.x-SNAPSHOT => 5.3.6.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.4.x => 5.4.1
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.4.x-SNAPSHOT => 5.4.2-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.5.x-SNAPSHOT => 5.5.0-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/current => 5.4.1
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/current-SNAPSHOT => 5.5.0-SNAPSHOT
+----
+
+By using the `--project-dir` argument, we instruct `autoln` to use the directory we specified to search for symlinks to create.
+
+Instead of `--project-dir` the `autoln` command can specify `--scan-dir` which will process every subdirectory it finds with a marker file named `.autoln-scan` as a `project-dir`.
+This is useful since piping the results to `autoln --project-dir` would create a new Java process (which is slow) for each project that was found.
+To further speed things up , the `--scan-dir` argument is typically accompanied by the `--maxdepth` argument which specifies how deep to search for the `.autoln-scan` marker files.
+An example can be found below:
+
+[source,bash]
+----
+autoln print --scan-dir="/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/" --maxdepth=2
+
+
+Symlinks for project at '/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security'
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/2.0.x => 2.0.8.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.0.x => 3.0.8.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.0.x-SNAPSHOT => 3.0.9.CI-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.1.x => 3.1.7.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.1.x-SNAPSHOT => 3.1.8.CI-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.2.x => 3.2.10.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/3.2.x-SNAPSHOT => 3.2.11.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.0.x => 4.0.4.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.0.x-SNAPSHOT => 4.0.5.CI-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.1.x => 4.1.5.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.1.x-SNAPSHOT => 4.1.6.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.2.x-SNAPSHOT => 4.2.19.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/4.2.x => 4.2.19.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.0.x => 5.0.19.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.0.x-SNAPSHOT => 5.0.20.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.1.x => 5.1.13.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.1.x-SNAPSHOT => 5.1.14.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.2.x => 5.2.7.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.2.x-SNAPSHOT => 5.2.8.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.3.x => 5.3.5.RELEASE
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.3.x-SNAPSHOT => 5.3.6.BUILD-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.4.x => 5.4.1
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.4.x-SNAPSHOT => 5.4.2-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/5.5.x-SNAPSHOT => 5.5.0-SNAPSHOT
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/current => 5.4.1
+/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security/current-SNAPSHOT => 5.5.0-SNAPSHOT
+
+... other projects with .autoln-scan in them below ...
+----
+
+== create
+
+autoln-create - use to create symlinks for each generation
+
+*autoln create* [*-hV*] (*--project-dir*=_<projectDir>_ | (*--scan-dir*=_<scanDir>_
+[*--maxdepth*=_<maxDepth>_]))
+
+*-h*, *--help*::
+Show this help message and exit.
+
+*--maxdepth*=_<maxDepth>_::
+the maxdepth levels of a directories to scan when using scan-dir option
+
+*--project-dir*=_<projectDir>_::
+The directory that should be processed. No marker file is necessary
+
+*--scan-dir*=_<scanDir>_::
+Indicates that each subdirectory of the scanDir that contains .autoln-scan should be processed as a project-dir
+
+*-V*, *--version*::
+Print version information and exit.
+
+Once you have <<print,printed>> the links to verify they are what you want, you can then use `autoln` to create your links.
+This can be done using the `create` sub-command with the `--project-dir` argument.
+For example, this would create the links that would be created for the spring-security project:
+
+[source,bash]
+----
+Creating Symlinks for project at '/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security'
+$ ls -alt /opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security
+total 24
+Oct 13 18:52 .
+14 Oct 13 18:52 5.5.x-SNAPSHOT -> 5.5.0-SNAPSHOT
+5 Oct 13 18:52 current -> 5.4.1
+14 Oct 13 18:52 current-SNAPSHOT -> 5.5.0-SNAPSHOT
+20 Oct 13 18:52 5.3.x-SNAPSHOT -> 5.3.6.BUILD-SNAPSHOT
+5 Oct 13 18:52 5.4.x -> 5.4.1
 ...
-Link Deleted: /opt/s2/ers/servers/static.springsource.org/htdocs/autorepo/docs/spring-framework/1.1.x
-Link Created: cd /opt/s2/ers/servers/static.springsource.org/htdocs/autorepo/docs/spring-framework/; ln -fs 1.1.5 1.1.x
-...
-</code></pre>
+----
 
-Of course not all of these actions are being performed by the autoln process, because each project needs to [activate](autorepo-version-updating#Activating-autoln) the autoln script. However, it gives developers the knowledge of what would happen if they did opt in. The output from the test script can be a bit much, but the results can be filtered with relative ease. For example, to view only the Spring Integration results with relative paths using the following command:
+By using the `--project-dir` argument, we instruct `autoln` to use the directory we specified to search for symlinks to create.
 
-<pre><code>$ php testlinks.php | grep /spring-integration/ | sed 's/\/.*autorepo\///'
-Link Deleted: docs/spring-integration/2.1.x
-Link Created: cd docs/spring-integration/; ln -fs 2.1.3.RELEASE 2.1.x
-Link Created: cd docs/spring-integration/; ln -fs 2.1.4.BUILD-SNAPSHOT 2.1.x-SNAPSHOT
-Link Created: cd docs/spring-integration/; ln -fs 2.2.0.BUILD-SNAPSHOT current-SNAPSHOT
-Link Created: cd docs/spring-integration/; ln -fs 2.1.3.RELEASE current
-...
-</code></pre>
+Instead of `--project-dir` the `autoln` command can specify `--scan-dir` which will process every subdirectory it finds with a marker file named `.autoln-scan` as a `project-dir`.
+This is useful since piping the results to `autoln --project-dir` would create a new Java process (which is slow) for each project that was found.
+To further speed things up , the `--scan-dir` argument is typically accompanied by the `--maxdepth` argument which specifies how deep to search for the `.autoln-scan` marker files.
+An example can be found below:
 
-Be careful to ensure that the filtering matches the entire project as some projects use different directory names for docs and schemas. For example, Spring Framework uses schema/spring and docs/spring-framework. If this is the case, ensure to update the command appropriately. For example:
+[source,bash]
+----
+autoln create --scan-dir="/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/" --maxdepth=2
 
-<pre><code>$ php testlinks.php | grep -E /spring\(/\|-framework\) | sed 's/\/.*autorepo\///'</code></pre>
+Creating Symlinks for project at '/opt/www/domains/spring.io/docs/htdocs/autorepo/docs/spring-security'
 
+... other projects with .autoln-scan in them below ...
+----
+
+The Spring docs server has a chron job that runs the command above every 20 minutes.
+This means if a project is in the autorepo directory and includes the `.autoln-scan` marker file in its root directory, its symlinks will automatically be updated.
