@@ -149,8 +149,7 @@ class AutolnTest {
 	@Test
 	void findLinksWhenEmpty() {
 		Autoln autoln = new Autoln();
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> autoln.findLinks(new File("src/test/resources/missing")));
+		assertThatIllegalArgumentException().isThrownBy(() -> autoln.findLinks(new File("src/test/resources/missing")));
 	}
 
 	@Test
@@ -176,7 +175,8 @@ class AutolnTest {
 			autoln.createLinks(links);
 
 			assertThat(Files.readSymbolicLink(from.toPath())).isRelative();
-			assertThat(Files.readSymbolicLink(from.toPath())).isEqualTo(from.toPath().getParent().relativize(to.toPath()));
+			assertThat(Files.readSymbolicLink(from.toPath()))
+					.isEqualTo(from.toPath().getParent().relativize(to.toPath()));
 		}
 		finally {
 			from.delete();
@@ -213,8 +213,10 @@ class AutolnTest {
 	}
 
 	private void printExpectedLinks(List<Ln> links) {
-		for(Ln ln : links) {
-			System.out.println("expected.add(new Ln(new File(path, \"" + ln.getFrom().toFile().getName() + "\"), new File(path, \"" + ln.getTo().toFile().getName() + "\")));");
+		for (Ln ln : links) {
+			System.out.println("expected.add(new Ln(new File(path, \"" + ln.getFrom().toFile().getName()
+					+ "\"), new File(path, \"" + ln.getTo().toFile().getName() + "\")));");
 		}
 	}
+
 }

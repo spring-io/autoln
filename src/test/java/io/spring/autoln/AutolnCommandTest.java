@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AutolnCommandTest {
+
 	private final int SUCCESS_STATUS = 0;
 
 	@Test
@@ -17,4 +18,5 @@ class AutolnCommandTest {
 		assertThat(test.getStdErr()).isNotEmpty();
 		assertThat(test.getStdOut()).isEmpty();
 	}
+
 }

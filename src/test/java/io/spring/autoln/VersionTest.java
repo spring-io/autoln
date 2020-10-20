@@ -1,14 +1,7 @@
 package io.spring.autoln;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,7 +30,7 @@ class VersionTest {
 			"Hoxton.RELEASE,false",
 			"Hoxton.BUILD-SNAPSHOT,false"
 	})
-		// @formatter:on
+	// @formatter:on
 	void isMilestoneWhenVersionThenIsEqualToExpected(String version, boolean expected) {
 		assertThat(Version.parse(version).isMilestone()).isEqualTo(expected);
 	}
@@ -66,7 +59,7 @@ class VersionTest {
 			"Hoxton.BUILD-SNAPSHOT,true"
 
 	})
-		// @formatter:on
+	// @formatter:on
 	void isSnapshotWhenVersionThenIsEqualToExpected(String version, boolean expected) {
 		assertThat(Version.parse(version).isSnapshot()).isEqualTo(expected);
 	}
@@ -94,7 +87,7 @@ class VersionTest {
 			"Hoxton.RELEASE,false",
 			"Hoxton.BUILD-SNAPSHOT,false"
 	})
-		// @formatter:on
+	// @formatter:on
 	void isReleaseCandidateWhenVersionThenIsEqualToExpected(String version, boolean expected) {
 		assertThat(Version.parse(version).isReleaseCandidate()).isEqualTo(expected);
 	}
@@ -122,7 +115,7 @@ class VersionTest {
 			"Hoxton.RELEASE,true",
 			"Hoxton.BUILD-SNAPSHOT,false"
 	})
-		// @formatter:on
+	// @formatter:on
 	void isReleaseWhenVersionThenIsEqualToExpected(String version, boolean expected) {
 		assertThat(Version.parse(version).isRelease()).isEqualTo(expected);
 	}
@@ -150,21 +143,24 @@ class VersionTest {
 			"Hoxton.RELEASE,Hoxton.x",
 			"Hoxton.BUILD-SNAPSHOT,Hoxton.x-SNAPSHOT"
 	})
-		// @formatter:on
+	// @formatter:on
 	void getGeneration(String version, String expectedGeneration) {
 		assertThat(Version.parse(version).getGeneration()).isEqualTo(expectedGeneration);
 	}
 
 	@ParameterizedTest
+	// @formatter:off
 	@CsvSource(value = {
 			"1.0.10.RELEASE,1.0.9.RELEASE"
 	})
+	// @formatter:on
 	void greaterThanWhenMoreDigits(String greater, String smaller) {
 		assertThat(Version.parse(greater).isGreaterThan(Version.parse(smaller))).isTrue();
 		assertThat(Version.parse(smaller).isGreaterThan(Version.parse(greater))).isFalse();
 	}
 
 	@ParameterizedTest
+	// @formatter:off
 	@CsvSource(value = {
 			"2020.0.0-M1,Hoxton.BUILD-SNAPSHOT",
 			"2020.0.0-M1,Hoxton.RELEASE",
@@ -173,12 +169,14 @@ class VersionTest {
 			"2020.0.0-RC1,Hoxton.BUILD-SNAPSHOT",
 			"2020.0.0,Hoxton.RELEASE"
 	})
+	// @formatter:on
 	void greaterThanWhenNotLegacy(String greater, String smaller) {
 		assertThat(Version.parse(greater).isGreaterThan(Version.parse(smaller))).isTrue();
 		assertThat(Version.parse(smaller).isGreaterThan(Version.parse(greater))).isFalse();
 	}
 
 	@ParameterizedTest
+	// @formatter:off
 	@CsvSource(value = {
 			"1.0.0.BUILD-SNAPSHOT,true",
 			"1.0.0-SNAPSHOT,true",
@@ -207,7 +205,9 @@ class VersionTest {
 			"Hoxton.RELEASE,true",
 			"Hoxton.BUILD-SNAPSHOT,true"
 	})
+	// @formatter:on
 	void isValid(String version, boolean expected) {
 		assertThat(Version.isValid(version)).isEqualTo(expected);
 	}
+
 }

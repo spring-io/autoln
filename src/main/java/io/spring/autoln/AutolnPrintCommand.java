@@ -8,9 +8,10 @@ import java.util.List;
 
 @CommandLine.Command(name = "print")
 class AutolnPrintCommand extends AbstractAutolnCommand implements Runnable {
+
 	@Override
 	public void run() {
-		for(File project : getProjects()) {
+		for (File project : getProjects()) {
 			List<Ln> links = this.autoln.findLinks(project);
 			stdout().println("");
 			stdout().println("Symlinks for project at '" + project + "'");
@@ -18,4 +19,5 @@ class AutolnPrintCommand extends AbstractAutolnCommand implements Runnable {
 			autoln.printLinks(stdout(), links);
 		}
 	}
+
 }

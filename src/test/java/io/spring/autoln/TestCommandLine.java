@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class TestCommandLine {
+
 	private StringWriter stdout = new StringWriter();
 
 	private StringWriter stderr = new StringWriter();
@@ -34,4 +35,5 @@ public class TestCommandLine {
 		CommandLine commandLine = new CommandLine(application);
 		return new TestCommandLine(commandLine);
 	}
+
 }

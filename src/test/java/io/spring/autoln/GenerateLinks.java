@@ -15,10 +15,11 @@ import java.util.stream.Collectors;
 public class GenerateLinks {
 
 	public static void main(String[] args) throws Exception {
-//		mkDirsForProject("spring-framework");
-//		mkDirsForProject("spring-boot");
+		// mkDirsForProject("spring-framework");
+		// mkDirsForProject("spring-boot");
 		mkDirsForProject("spring-cloud");
-//		mkDirsForProjectUrl("spring-security", "https://docs.spring.io/spring-security/site/docs/");
+		// mkDirsForProjectUrl("spring-security",
+		// "https://docs.spring.io/spring-security/site/docs/");
 	}
 
 	static void mkDirsForProject(String project) throws IOException {
@@ -36,19 +37,21 @@ public class GenerateLinks {
 	}
 
 	static List<Version> getVersionsFromUrl(String url) throws IOException {
+		// @formatter:off
 		return getDirsFromUrl(url).stream()
 				.map(d -> new File(d).getName())
 				.filter(Version::isValid)
 				.map(Version::parse)
 				.sorted()
 				.collect(Collectors.toList());
+		// @formatter:on
 	}
 
 	static List<String> getDirsFromUrl(String url) throws IOException {
 		Document doc = Jsoup.connect(url).get();
 		List<String> result = new ArrayList<>();
 		Elements links = doc.select("body a");
-		for(Element l : links) {
+		for (Element l : links) {
 			String href = l.attr("href");
 			if (href.equals(l.text())) {
 				result.add(href);
@@ -57,4 +60,5 @@ public class GenerateLinks {
 		Collections.sort(result);
 		return result;
 	}
+
 }

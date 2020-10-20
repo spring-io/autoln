@@ -10,8 +10,8 @@ import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
 public class FileSystemUtils {
 
 	/**
-	 * Recursively copy the contents of the {@code src} file/directory
-	 * to the {@code dest} file/directory.
+	 * Recursively copy the contents of the {@code src} file/directory to the {@code dest}
+	 * file/directory.
 	 * @param src the source directory
 	 * @param dest the destination directory
 	 * @throws IOException in the case of I/O errors
@@ -33,6 +33,7 @@ public class FileSystemUtils {
 					Files.createDirectories(dest.resolve(src.relativize(dir)));
 					return FileVisitResult.CONTINUE;
 				}
+
 				@Override
 				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 					Files.copy(file, dest.resolve(src.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
@@ -47,4 +48,5 @@ public class FileSystemUtils {
 			throw new IllegalArgumentException("Source File must denote a directory or file");
 		}
 	}
+
 }

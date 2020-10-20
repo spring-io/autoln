@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ExtendedPathAssert extends AbstractPathAssert<ExtendedPathAssert> {
+
 	public ExtendedPathAssert(Path actual) {
 		super(actual, ExtendedPathAssert.class);
 	}
@@ -17,7 +18,9 @@ public class ExtendedPathAssert extends AbstractPathAssert<ExtendedPathAssert> {
 
 	public ExtendedPathAssert isRelativeSymlinkTo(String path) throws IOException {
 		isSymbolicLink();
-		assertThatPath(Files.readSymbolicLink(this.actual)).isRelative().isEqualTo(this.actual.getParent().relativize(this.actual.getParent().resolve(path)));
+		assertThatPath(Files.readSymbolicLink(this.actual)).isRelative()
+				.isEqualTo(this.actual.getParent().relativize(this.actual.getParent().resolve(path)));
 		return this;
 	}
+
 }

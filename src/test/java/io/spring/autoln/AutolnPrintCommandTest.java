@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AutolnPrintCommandTest {
+
 	private final int SUCCESS_STATUS = 0;
 
 	@Test
@@ -33,7 +34,8 @@ class AutolnPrintCommandTest {
 	void printWhenProjectDirAndScanDirThenError() {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 
-		int status = test.getCommandLine().execute("print", "--scan-dir=src/test/resources/docs/spring-boot", "--project-dir=src/test/resources/docs/spring-boot");
+		int status = test.getCommandLine().execute("print", "--scan-dir=src/test/resources/docs/spring-boot",
+				"--project-dir=src/test/resources/docs/spring-boot");
 
 		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isNotEmpty();
@@ -44,7 +46,8 @@ class AutolnPrintCommandTest {
 	void printWhenProjectDirAndMaxDepthThenError() {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 
-		int status = test.getCommandLine().execute("print", "--project-dir=src/test/resources/docs/spring-boot", "--maxdepth=1");
+		int status = test.getCommandLine().execute("print", "--project-dir=src/test/resources/docs/spring-boot",
+				"--maxdepth=1");
 
 		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Missing required argument");
@@ -66,7 +69,8 @@ class AutolnPrintCommandTest {
 	void printWhenProjectDirNotDirThenError() {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 
-		int status = test.getCommandLine().execute("print", "--project-dir=src/test/resources/docs/spring-framework/.autoln-scan");
+		int status = test.getCommandLine().execute("print",
+				"--project-dir=src/test/resources/docs/spring-framework/.autoln-scan");
 
 		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("is not a Directory");
@@ -89,7 +93,6 @@ class AutolnPrintCommandTest {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 
 		int status = test.getCommandLine().execute("print", "--scan-dir=src/test/resources/docs/spring-framework/");
-
 
 		assertThat(status).isEqualTo(SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isEmpty();
@@ -115,7 +118,8 @@ class AutolnPrintCommandTest {
 
 		assertThat(status).isEqualTo(SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isEmpty();
-		assertThat(test.getStdOut()).contains("No projects contained .autoln-scan within src/test/resources/docswith maxdepth of 1");
+		assertThat(test.getStdOut())
+				.contains("No projects contained .autoln-scan within src/test/resources/docswith maxdepth of 1");
 	}
 
 	private static void assertSpringFrameworkStdOut(String stdout) {
@@ -153,4 +157,5 @@ class AutolnPrintCommandTest {
 						"src/test/resources/docs/spring-framework/current-SNAPSHOT => 5.3.0-SNAPSHOT\n");
 		// @formatter:on
 	}
+
 }

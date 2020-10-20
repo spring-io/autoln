@@ -11,8 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AbstractAutolnCommandTest {
 
 	@Test
-	void findAutoLnScanParents() throws IOException  {
+	void findAutoLnScanParents() throws IOException {
 		List<File> parents = AbstractAutolnCommand.scanForProjects(new File("src/test/resources/"), null);
 		assertThat(parents).containsExactly(new File("src/test/resources/docs/spring-framework"));
 	}
+
 }

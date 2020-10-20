@@ -11,6 +11,7 @@ import static io.spring.autoln.ExtendedPathAssert.assertThatPath;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AutolnCreateCommandTest {
+
 	private final int SUCCESS_STATUS = 0;
 
 	@Test
@@ -39,7 +40,8 @@ class AutolnCreateCommandTest {
 	void createWhenProjectDirAndScanDirThenError() {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 
-		int status = test.getCommandLine().execute("create", "--scan-dir=src/test/resources/docs/spring-boot", "--project-dir=src/test/resources/docs/spring-boot");
+		int status = test.getCommandLine().execute("create", "--scan-dir=src/test/resources/docs/spring-boot",
+				"--project-dir=src/test/resources/docs/spring-boot");
 
 		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isNotEmpty();
@@ -50,7 +52,8 @@ class AutolnCreateCommandTest {
 	void createWhenProjectDirAndMaxDepthThenError() {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 
-		int status = test.getCommandLine().execute("create", "--project-dir=src/test/resources/docs/spring-boot", "--maxdepth=1");
+		int status = test.getCommandLine().execute("create", "--project-dir=src/test/resources/docs/spring-boot",
+				"--maxdepth=1");
 
 		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Missing required argument");
@@ -72,7 +75,8 @@ class AutolnCreateCommandTest {
 	void createWhenProjectDirNotDirThenError() {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 
-		int status = test.getCommandLine().execute("create", "--project-dir=src/test/resources/docs/spring-framework/.autoln-scan");
+		int status = test.getCommandLine().execute("create",
+				"--project-dir=src/test/resources/docs/spring-framework/.autoln-scan");
 
 		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("is not a Directory");
@@ -80,14 +84,15 @@ class AutolnCreateCommandTest {
 	}
 
 	@Test
-	void createWhenValidSuccess(@TempDir Path tempDir) throws IOException  {
+	void createWhenValidSuccess(@TempDir Path tempDir) throws IOException {
 		Path p = Paths.get("src/test/resources");
 		Path projectDir = tempDir.resolve(p.getFileName());
 		FileSystemUtils.copyRecursively(p, projectDir);
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 		Path springFrameworkProject = projectDir.resolve("docs/spring-framework");
 
-		int status = test.getCommandLine().execute("create", "--project-dir=" + springFrameworkProject.toFile().getAbsolutePath());
+		int status = test.getCommandLine().execute("create",
+				"--project-dir=" + springFrameworkProject.toFile().getAbsolutePath());
 
 		assertThat(status).isEqualTo(SUCCESS_STATUS);
 
@@ -119,39 +124,5 @@ class AutolnCreateCommandTest {
 		assertThatPath(springFrameworkProject.resolve("current")).isRelativeSymlinkTo("5.2.9.RELEASE");
 		assertThatPath(springFrameworkProject.resolve("current-SNAPSHOT")).isRelativeSymlinkTo("5.3.0-SNAPSHOT");
 	}
-
-//	@Test
-//	void printWhenScanDir() {
-//		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
-//
-//		int status = test.getCommandLine().execute("print", "--scan-dir=src/test/resources/docs/spring-framework/");
-//
-//
-//		assertThat(status).isEqualTo(SUCCESS_STATUS);
-//		assertThat(test.getStdErr()).isEmpty();
-//		assertSpringFrameworkStdOut(test.getStdOut());
-//	}
-//
-//	@Test
-//	void printWhenScanDirAndMaxDepthFindsResults() {
-//		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
-//
-//		int status = test.getCommandLine().execute("print", "--scan-dir=src/test/resources/docs/", "--maxdepth=2");
-//
-//		assertThat(status).isEqualTo(SUCCESS_STATUS);
-//		assertThat(test.getStdErr()).isEmpty();
-//		assertSpringFrameworkStdOut(test.getStdOut());
-//	}
-//
-//	@Test
-//	void printWhenScanDirAndMaxDepthNoResults() {
-//		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
-//
-//		int status = test.getCommandLine().execute("print", "--scan-dir=src/test/resources/docs/", "--maxdepth=1");
-//
-//		assertThat(status).isEqualTo(SUCCESS_STATUS);
-//		assertThat(test.getStdErr()).isEmpty();
-//		assertThat(test.getStdOut()).contains("No projects contained .autoln-scan within src/test/resources/docswith maxdepth of 1");
-//	}
 
 }

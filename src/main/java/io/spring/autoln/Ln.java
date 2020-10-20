@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 public class Ln {
+
 	private final Path from;
 
 	private final Path to;
@@ -37,15 +38,17 @@ public class Ln {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		Ln ln = (Ln) o;
-		return Objects.equals(from, ln.from) &&
-				Objects.equals(to, ln.to);
+		return Objects.equals(from, ln.from) && Objects.equals(to, ln.to);
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(from, to);
 	}
+
 }

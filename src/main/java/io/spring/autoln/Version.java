@@ -4,9 +4,12 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 class Version implements Comparable<Version> {
-	private static final Pattern VERSION_PATTERN = Pattern.compile("^(?<major>\\d+)\\.(?<minor>\\d+)\\.\\d+(?:(?:\\.BUILD|\\.CI)?-SNAPSHOT|[\\.\\-]M\\d+|[\\.\\-]RC\\d+|\\.RELEASE)?");
 
-	private static final Pattern LEGACY_RELEASE_TRAIN_VERSION_PATTERN = Pattern.compile("^(?<name>[A-Z][a-zA-Z]+)(?:(?:\\.BUILD|\\.CI)?-SNAPSHOT|[\\.\\-]M\\d+|[\\.\\-]RC\\d+|\\.RELEASE|[\\.\\-]SR\\d+)");
+	private static final Pattern VERSION_PATTERN = Pattern.compile(
+			"^(?<major>\\d+)\\.(?<minor>\\d+)\\.\\d+(?:(?:\\.BUILD|\\.CI)?-SNAPSHOT|[\\.\\-]M\\d+|[\\.\\-]RC\\d+|\\.RELEASE)?");
+
+	private static final Pattern LEGACY_RELEASE_TRAIN_VERSION_PATTERN = Pattern.compile(
+			"^(?<name>[A-Z][a-zA-Z]+)(?:(?:\\.BUILD|\\.CI)?-SNAPSHOT|[\\.\\-]M\\d+|[\\.\\-]RC\\d+|\\.RELEASE|[\\.\\-]SR\\d+)");
 
 	private static final Pattern ALL_DIGITS_PATTERN = Pattern.compile("^\\d+$");
 
@@ -14,7 +17,7 @@ class Version implements Comparable<Version> {
 
 	private Version(String version) {
 		if (!isValid(version)) {
-			throw new IllegalArgumentException("version '"+ version + "' is invalid");
+			throw new IllegalArgumentException("version '" + version + "' is invalid");
 		}
 		this.version = version;
 	}
@@ -87,15 +90,15 @@ class Version implements Comparable<Version> {
 		return this.version.endsWith("-SNAPSHOT");
 	}
 
-	public  boolean isReleaseCandidate() {
+	public boolean isReleaseCandidate() {
 		return this.version.matches(".*?[\\.\\-]RC\\d+$");
 	}
 
-	public  boolean isMilestone() {
+	public boolean isMilestone() {
 		return this.version.matches(".*?[\\.\\-]M\\d+$");
 	}
 
-	public  boolean isRelease() {
+	public boolean isRelease() {
 		return !isSnapshot() && !isMilestone() && !isReleaseCandidate();
 	}
 
@@ -106,8 +109,10 @@ class Version implements Comparable<Version> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		Version version1 = (Version) o;
 		return Objects.equals(this.version, version1.version);
 	}
@@ -134,4 +139,5 @@ class Version implements Comparable<Version> {
 	public static Version parse(String version) {
 		return new Version(version);
 	}
+
 }

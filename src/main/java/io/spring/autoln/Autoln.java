@@ -12,10 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Autoln {
+
 	public void printLinks(PrintWriter writer, List<Ln> links) {
-		links.forEach(link ->
-			writer.println(link)
-		);
+		links.forEach(link -> writer.println(link));
 		writer.flush();
 	}
 
@@ -44,7 +43,7 @@ public class Autoln {
 		if (dirs == null) {
 			return Collections.emptyList();
 		}
-		Map<String,Version> generationToMaxVersion = new HashMap<>();
+		Map<String, Version> generationToMaxVersion = new HashMap<>();
 		for (File dir : dirs) {
 			if (!Version.isValid(dir.getName())) {
 				continue;
@@ -70,7 +69,7 @@ public class Autoln {
 			if (version.isSnapshot()) {
 				currentSnapshot = version;
 			}
-			else if(version.isRelease()) {
+			else if (version.isRelease()) {
 				current = version;
 			}
 			results.add(toLn(path, version, version.getGeneration()));
@@ -90,13 +89,12 @@ public class Autoln {
 		return new Ln(from, to);
 	}
 
-
 	/**
-	 * Delete the supplied {@link File} &mdash; for directories,
-	 * recursively delete any nested directories or files as well.
+	 * Delete the supplied {@link File} &mdash; for directories, recursively delete any
+	 * nested directories or files as well.
 	 * @param root the root {@code File} to delete
-	 * @return {@code true} if the {@code File} existed and was deleted,
-	 * or {@code false} if it did not exist
+	 * @return {@code true} if the {@code File} existed and was deleted, or {@code false}
+	 * if it did not exist
 	 * @throws IOException in the case of I/O errors
 	 * @since 5.0
 	 */
@@ -114,6 +112,7 @@ public class Autoln {
 				Files.delete(file);
 				return FileVisitResult.CONTINUE;
 			}
+
 			@Override
 			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
 				Files.delete(dir);
@@ -122,4 +121,5 @@ public class Autoln {
 		});
 		return true;
 	}
+
 }
