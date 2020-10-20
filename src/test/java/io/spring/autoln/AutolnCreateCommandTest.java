@@ -20,7 +20,7 @@ class AutolnCreateCommandTest {
 
 		int status = test.getCommandLine().execute("create");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Missing required argument");
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -31,7 +31,7 @@ class AutolnCreateCommandTest {
 
 		int status = test.getCommandLine().execute("create", "--maxdepth=1");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Missing required argument");
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -43,7 +43,7 @@ class AutolnCreateCommandTest {
 		int status = test.getCommandLine().execute("create", "--scan-dir=src/test/resources/docs/spring-boot",
 				"--project-dir=src/test/resources/docs/spring-boot");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isNotEmpty();
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -55,7 +55,7 @@ class AutolnCreateCommandTest {
 		int status = test.getCommandLine().execute("create", "--project-dir=src/test/resources/docs/spring-boot",
 				"--maxdepth=1");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Missing required argument");
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -66,7 +66,7 @@ class AutolnCreateCommandTest {
 
 		int status = test.getCommandLine().execute("print", "--project-dir=/not/found");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Directory not found /not/found");
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -78,7 +78,7 @@ class AutolnCreateCommandTest {
 		int status = test.getCommandLine().execute("create",
 				"--project-dir=src/test/resources/docs/spring-framework/.autoln-scan");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("is not a Directory");
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -94,7 +94,7 @@ class AutolnCreateCommandTest {
 		int status = test.getCommandLine().execute("create",
 				"--project-dir=" + springFrameworkProject.toFile().getAbsolutePath());
 
-		assertThat(status).isEqualTo(SUCCESS_STATUS);
+		assertThat(status).isEqualTo(this.SUCCESS_STATUS);
 
 		assertThatPath(springFrameworkProject.resolve("1.0.x")).isRelativeSymlinkTo("1.0.2");
 		assertThatPath(springFrameworkProject.resolve("1.1.x")).isRelativeSymlinkTo("1.1.5");

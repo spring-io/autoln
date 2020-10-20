@@ -44,11 +44,11 @@ class AbstractAutolnCommand {
 	}
 
 	PrintWriter stdout() {
-		return commandSpec.commandLine().getOut();
+		return this.commandSpec.commandLine().getOut();
 	}
 
 	PrintWriter stderr() {
-		return commandSpec.commandLine().getErr();
+		return this.commandSpec.commandLine().getErr();
 	}
 
 	List<File> getProjects() {

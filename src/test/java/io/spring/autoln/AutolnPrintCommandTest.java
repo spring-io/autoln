@@ -14,7 +14,7 @@ class AutolnPrintCommandTest {
 
 		int status = test.getCommandLine().execute("print");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Missing required argument");
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -25,7 +25,7 @@ class AutolnPrintCommandTest {
 
 		int status = test.getCommandLine().execute("print", "--maxdepth=1");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Missing required argument");
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -37,7 +37,7 @@ class AutolnPrintCommandTest {
 		int status = test.getCommandLine().execute("print", "--scan-dir=src/test/resources/docs/spring-boot",
 				"--project-dir=src/test/resources/docs/spring-boot");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isNotEmpty();
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -49,7 +49,7 @@ class AutolnPrintCommandTest {
 		int status = test.getCommandLine().execute("print", "--project-dir=src/test/resources/docs/spring-boot",
 				"--maxdepth=1");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Missing required argument");
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -60,7 +60,7 @@ class AutolnPrintCommandTest {
 
 		int status = test.getCommandLine().execute("print", "--project-dir=/not/found");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Directory not found /not/found");
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -72,7 +72,7 @@ class AutolnPrintCommandTest {
 		int status = test.getCommandLine().execute("print",
 				"--project-dir=src/test/resources/docs/spring-framework/.autoln-scan");
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("is not a Directory");
 		assertThat(test.getStdOut()).isEmpty();
 	}
@@ -83,7 +83,7 @@ class AutolnPrintCommandTest {
 
 		int status = test.getCommandLine().execute("print", "--project-dir=src/test/resources/docs/spring-framework/");
 
-		assertThat(status).isEqualTo(SUCCESS_STATUS);
+		assertThat(status).isEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isEmpty();
 		assertSpringFrameworkStdOut(test.getStdOut());
 	}
@@ -94,7 +94,7 @@ class AutolnPrintCommandTest {
 
 		int status = test.getCommandLine().execute("print", "--scan-dir=src/test/resources/docs/spring-framework/");
 
-		assertThat(status).isEqualTo(SUCCESS_STATUS);
+		assertThat(status).isEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isEmpty();
 		assertSpringFrameworkStdOut(test.getStdOut());
 	}
@@ -105,7 +105,7 @@ class AutolnPrintCommandTest {
 
 		int status = test.getCommandLine().execute("print", "--scan-dir=src/test/resources/docs/", "--maxdepth=2");
 
-		assertThat(status).isEqualTo(SUCCESS_STATUS);
+		assertThat(status).isEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isEmpty();
 		assertSpringFrameworkStdOut(test.getStdOut());
 	}
@@ -116,7 +116,7 @@ class AutolnPrintCommandTest {
 
 		int status = test.getCommandLine().execute("print", "--scan-dir=src/test/resources/docs/", "--maxdepth=1");
 
-		assertThat(status).isEqualTo(SUCCESS_STATUS);
+		assertThat(status).isEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isEmpty();
 		assertThat(test.getStdOut())
 				.contains("No projects contained .autoln-scan within src/test/resources/docswith maxdepth of 1");

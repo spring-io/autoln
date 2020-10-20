@@ -20,11 +20,11 @@ public class Ln {
 	}
 
 	public Path getFrom() {
-		return from;
+		return this.from;
 	}
 
 	public Path getTo() {
-		return to;
+		return this.to;
 	}
 
 	public Path getRelativeTo() {
@@ -33,7 +33,7 @@ public class Ln {
 
 	@Override
 	public String toString() {
-		return from + " => " + getRelativeTo();
+		return this.from + " => " + getRelativeTo();
 	}
 
 	@Override
@@ -43,12 +43,12 @@ public class Ln {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Ln ln = (Ln) o;
-		return Objects.equals(from, ln.from) && Objects.equals(to, ln.to);
+		return Objects.equals(this.from, ln.from) && Objects.equals(this.to, ln.to);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(from, to);
+		return Objects.hash(this.from, this.to);
 	}
 
 }

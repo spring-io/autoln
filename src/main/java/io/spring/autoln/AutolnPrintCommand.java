@@ -16,7 +16,7 @@ class AutolnPrintCommand extends AbstractAutolnCommand implements Runnable {
 			stdout().println("");
 			stdout().println("Symlinks for project at '" + project + "'");
 			stdout().println("");
-			autoln.printLinks(stdout(), links);
+			this.autoln.printLinks(stdout(), links);
 		}
 	}
 

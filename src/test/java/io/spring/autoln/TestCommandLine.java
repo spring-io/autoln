@@ -7,9 +7,9 @@ import java.io.StringWriter;
 
 public class TestCommandLine {
 
-	private StringWriter stdout = new StringWriter();
+	private final StringWriter stdout = new StringWriter();
 
-	private StringWriter stderr = new StringWriter();
+	private final StringWriter stderr = new StringWriter();
 
 	private final CommandLine commandLine;
 

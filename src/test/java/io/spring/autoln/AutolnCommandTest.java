@@ -14,7 +14,7 @@ class AutolnCommandTest {
 
 		int status = test.getCommandLine().execute();
 
-		assertThat(status).isNotEqualTo(SUCCESS_STATUS);
+		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isNotEmpty();
 		assertThat(test.getStdOut()).isEmpty();
 	}
