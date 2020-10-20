@@ -34,7 +34,7 @@ import java.util.Map;
 public class Autoln {
 
 	public void printLinks(PrintWriter writer, List<Ln> links) {
-		links.forEach(link -> writer.println(link));
+		links.forEach((link) -> writer.println(link));
 		writer.flush();
 	}
 

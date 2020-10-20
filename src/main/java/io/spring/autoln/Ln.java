@@ -48,16 +48,13 @@ public class Ln {
 	}
 
 	@Override
-	public String toString() {
-		return this.from + " => " + getRelativeTo();
-	}
-
-	@Override
 	public boolean equals(Object o) {
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 		Ln ln = (Ln) o;
 		return Objects.equals(this.from, ln.from) && Objects.equals(this.to, ln.to);
 	}
@@ -65,6 +62,11 @@ public class Ln {
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.from, this.to);
+	}
+
+	@Override
+	public String toString() {
+		return this.from + " => " + getRelativeTo();
 	}
 
 }

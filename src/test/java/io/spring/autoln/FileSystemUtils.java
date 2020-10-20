@@ -17,13 +17,19 @@
 package io.spring.autoln;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.FileVisitOption;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.EnumSet;
 
-import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
+final class FileSystemUtils {
 
-public class FileSystemUtils {
+	private FileSystemUtils() {
+	}
 
 	/**
 	 * Recursively copy the contents of the {@code src} file/directory to the {@code dest}
@@ -33,7 +39,7 @@ public class FileSystemUtils {
 	 * @throws IOException in the case of I/O errors
 	 * @since 5.0
 	 */
-	public static void copyRecursively(Path src, Path dest) throws IOException {
+	static void copyRecursively(Path src, Path dest) throws IOException {
 		if (src == null) {
 			throw new IllegalArgumentException("Source Path must not be null");
 		}
@@ -43,19 +49,21 @@ public class FileSystemUtils {
 		BasicFileAttributes srcAttr = Files.readAttributes(src, BasicFileAttributes.class);
 
 		if (srcAttr.isDirectory()) {
-			Files.walkFileTree(src, EnumSet.of(FOLLOW_LINKS), Integer.MAX_VALUE, new SimpleFileVisitor<Path>() {
-				@Override
-				public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-					Files.createDirectories(dest.resolve(src.relativize(dir)));
-					return FileVisitResult.CONTINUE;
-				}
+			Files.walkFileTree(src, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE,
+					new SimpleFileVisitor<Path>() {
+						@Override
+						public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
+								throws IOException {
+							Files.createDirectories(dest.resolve(src.relativize(dir)));
+							return FileVisitResult.CONTINUE;
+						}
 
-				@Override
-				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-					Files.copy(file, dest.resolve(src.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
-					return FileVisitResult.CONTINUE;
-				}
-			});
+						@Override
+						public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+							Files.copy(file, dest.resolve(src.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
+							return FileVisitResult.CONTINUE;
+						}
+					});
 		}
 		else if (srcAttr.isRegularFile()) {
 			Files.copy(src, dest);

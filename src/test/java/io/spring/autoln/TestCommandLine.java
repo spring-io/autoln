@@ -16,12 +16,12 @@
 
 package io.spring.autoln;
 
-import picocli.CommandLine;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class TestCommandLine {
+import picocli.CommandLine;
+
+public final class TestCommandLine {
 
 	private final StringWriter stdout = new StringWriter();
 

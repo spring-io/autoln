@@ -19,7 +19,7 @@ package io.spring.autoln;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-class Version implements Comparable<Version> {
+final class Version implements Comparable<Version> {
 
 	private static final Pattern VERSION_PATTERN = Pattern.compile(
 			"^(?<major>\\d+)\\.(?<minor>\\d+)\\.\\d+(?:(?:\\.BUILD|\\.CI)?-SNAPSHOT|[\\.\\-]M\\d+|[\\.\\-]RC\\d+|\\.RELEASE)?");
@@ -38,7 +38,7 @@ class Version implements Comparable<Version> {
 		this.version = version;
 	}
 
-	public boolean isGreaterThan(Version version) {
+	boolean isGreaterThan(Version version) {
 		boolean isLegacy = isLegacyReleaseTrain(this.version);
 		boolean isThatLegacy = isLegacyReleaseTrain(version.version);
 		if (isLegacy && !isThatLegacy) {
@@ -94,41 +94,38 @@ class Version implements Comparable<Version> {
 		return 0;
 	}
 
-	public String getVersion() {
+	String getVersion() {
 		return this.version;
 	}
 
-	public String getGeneration() {
+	String getGeneration() {
 		return this.version.replaceFirst("^(\\d+\\.\\d+|[A-Z][a-zA-Z]+)\\..*?(\\-SNAPSHOT)?$", "$1.x$2");
 	}
 
-	public boolean isSnapshot() {
+	boolean isSnapshot() {
 		return this.version.endsWith("-SNAPSHOT");
 	}
 
-	public boolean isReleaseCandidate() {
+	boolean isReleaseCandidate() {
 		return this.version.matches(".*?[\\.\\-]RC\\d+$");
 	}
 
-	public boolean isMilestone() {
+	boolean isMilestone() {
 		return this.version.matches(".*?[\\.\\-]M\\d+$");
 	}
 
-	public boolean isRelease() {
+	boolean isRelease() {
 		return !isSnapshot() && !isMilestone() && !isReleaseCandidate();
 	}
 
 	@Override
-	public String toString() {
-		return this.version;
-	}
-
-	@Override
 	public boolean equals(Object o) {
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 		Version version1 = (Version) o;
 		return Objects.equals(this.version, version1.version);
 	}
@@ -138,7 +135,12 @@ class Version implements Comparable<Version> {
 		return Objects.hash(this.version);
 	}
 
-	public static boolean isValid(String version) {
+	@Override
+	public String toString() {
+		return this.version;
+	}
+
+	static boolean isValid(String version) {
 		if (version == null) {
 			return false;
 		}
@@ -152,7 +154,7 @@ class Version implements Comparable<Version> {
 		return LEGACY_RELEASE_TRAIN_VERSION_PATTERN.matcher(version).matches();
 	}
 
-	public static Version parse(String version) {
+	static Version parse(String version) {
 		return new Version(version);
 	}
 

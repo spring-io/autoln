@@ -16,11 +16,6 @@
 
 package io.spring.autoln;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +23,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GenerateLinks {
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public final class GenerateLinks {
+
+	private GenerateLinks() {
+	}
 
 	public static void main(String[] args) throws Exception {
 		// mkDirsForProject("spring-framework");
@@ -55,7 +58,7 @@ public class GenerateLinks {
 	static List<Version> getVersionsFromUrl(String url) throws IOException {
 		// @formatter:off
 		return getDirsFromUrl(url).stream()
-				.map(d -> new File(d).getName())
+				.map((d) -> new File(d).getName())
 				.filter(Version::isValid)
 				.map(Version::parse)
 				.sorted()

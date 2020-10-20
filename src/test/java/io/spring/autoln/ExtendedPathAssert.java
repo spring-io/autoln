@@ -16,11 +16,11 @@
 
 package io.spring.autoln;
 
-import org.assertj.core.api.AbstractPathAssert;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import org.assertj.core.api.AbstractPathAssert;
 
 public class ExtendedPathAssert extends AbstractPathAssert<ExtendedPathAssert> {
 

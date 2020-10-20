@@ -40,21 +40,22 @@ class AbstractAutolnCommand {
 	protected Autoln autoln = new Autoln();
 
 	/**
-	 * Finds all directories containing a file named ".autoln-scan"
-	 * @param root
-	 * @return
+	 * Finds all directories containing a file named ".autoln-scan".
+	 * @param root the root directory to search.
+	 * @param maxDepth the maximum depth to scan.
+	 * @return a List of the project directories that had .autoln-scan marker file in it.
 	 */
 	static List<File> scanForProjects(File root, Integer maxDepth) {
 		Stream<Path> files;
 		try {
-			files = maxDepth == null ? Files.walk(root.toPath()) : Files.walk(root.toPath(), maxDepth);
+			files = (maxDepth != null) ? Files.walk(root.toPath(), maxDepth) : Files.walk(root.toPath());
 		}
 		catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
 		// @formatter:off
-		return files.filter(path -> path.toFile().getName().equals(".autoln-scan"))
-				.map(marker -> marker.getParent().toFile())
+		return files.filter((path) -> path.toFile().getName().equals(".autoln-scan"))
+				.map((marker) -> marker.getParent().toFile())
 				.collect(Collectors.toList());
 		// @formatter:on
 	}

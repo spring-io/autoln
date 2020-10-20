@@ -16,12 +16,12 @@
 
 package io.spring.autoln;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import static io.spring.autoln.ExtendedPathAssert.assertThatPath;
 import static org.assertj.core.api.Assertions.assertThat;

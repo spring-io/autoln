@@ -25,7 +25,7 @@ class VersionTest {
 
 	@ParameterizedTest
 	// @formatter:off
-	@CsvSource(value = {
+	@CsvSource({
 			"1.0.0.BUILD-SNAPSHOT,false",
 			"1.0.0-SNAPSHOT,false",
 			"1.0.0.M1,true",
@@ -53,7 +53,7 @@ class VersionTest {
 
 	@ParameterizedTest
 	// @formatter:off
-	@CsvSource(value = {
+	@CsvSource({
 			"1.0.0.BUILD-SNAPSHOT,true",
 			"1.0.0-SNAPSHOT,true",
 			"1.0.0.M1,false",
@@ -82,7 +82,7 @@ class VersionTest {
 
 	@ParameterizedTest
 	// @formatter:off
-	@CsvSource(value = {
+	@CsvSource({
 			"1.0.0.BUILD-SNAPSHOT,false",
 			"1.0.0-SNAPSHOT,false",
 			"1.0.0.M1,false",
@@ -110,7 +110,7 @@ class VersionTest {
 
 	@ParameterizedTest
 	// @formatter:off
-	@CsvSource(value = {
+	@CsvSource({
 			"1.0.0.BUILD-SNAPSHOT,false",
 			"1.0.0-SNAPSHOT,false",
 			"1.0.0.M1,false",
@@ -138,7 +138,7 @@ class VersionTest {
 
 	@ParameterizedTest
 	// @formatter:off
-	@CsvSource(value = {
+	@CsvSource({
 			"1.0.0.BUILD-SNAPSHOT,1.0.x-SNAPSHOT",
 			"1.0.0-SNAPSHOT,1.0.x-SNAPSHOT",
 			"1.0.0.M1,1.0.x",
@@ -166,7 +166,7 @@ class VersionTest {
 
 	@ParameterizedTest
 	// @formatter:off
-	@CsvSource(value = {
+	@CsvSource({
 			"1.0.10.RELEASE,1.0.9.RELEASE"
 	})
 	// @formatter:on
@@ -177,7 +177,7 @@ class VersionTest {
 
 	@ParameterizedTest
 	// @formatter:off
-	@CsvSource(value = {
+	@CsvSource({
 			"2020.0.0-M1,Hoxton.BUILD-SNAPSHOT",
 			"2020.0.0-M1,Hoxton.RELEASE",
 			"2020.0.0-M1,Hoxton-SR1",
@@ -193,7 +193,7 @@ class VersionTest {
 
 	@ParameterizedTest
 	// @formatter:off
-	@CsvSource(value = {
+	@CsvSource({
 			"1.0.0.BUILD-SNAPSHOT,true",
 			"1.0.0-SNAPSHOT,true",
 			"1.0.0.M1,true",
