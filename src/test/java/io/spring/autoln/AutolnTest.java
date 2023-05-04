@@ -179,6 +179,7 @@ class AutolnTest {
 		expected.add(new Ln(new File(path, "6.1.x-SNAPSHOT"), new File(path, "6.1.0-SNAPSHOT")));
 		expected.add(new Ln(new File(path, "current"), new File(path, "6.0.3")));
 		expected.add(new Ln(new File(path, "current-SNAPSHOT"), new File(path, "6.1.0-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference"), new File(path, ".6.0.x-SNAPSHOT/reference")));
 		expected.add(
 				new Ln(new File(path, "current-SNAPSHOT/reference"), new File(path, ".current-SNAPSHOT/reference")));
 

@@ -19,6 +19,7 @@ package io.spring.autoln;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.FileVisitOption;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
@@ -160,7 +161,7 @@ public class Autoln {
 
 	private List<Path> listChildren(Path path) {
 		try {
-			try (Stream<Path> walk = Files.walk(path, 1)) {
+			try (Stream<Path> walk = Files.walk(path, 1, FileVisitOption.FOLLOW_LINKS)) {
 				List<Path> result = walk.collect(Collectors.toList());
 				result.remove(path);
 				return result;
