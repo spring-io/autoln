@@ -185,3 +185,8 @@ Creating Symlinks for project at '/opt/www/domains/spring.io/docs/htdocs/autorep
 
 The Spring docs server has a chron job that runs the command above every 20 minutes.
 This means if a project is in the autorepo directory and includes the `.autoln-scan` marker file in its root directory, its symlinks will automatically be updated.
+
+== Supplemental
+
+It is possible to add supplemental files to the symlinks by creating a sibling directory that contains the supplemental content that has the same name as the symlink but prefixed with a `.`.
+For example, to have supplemental content for the symlink `current` create a sibbling directory named `.current` that should have the supplemental content in it.

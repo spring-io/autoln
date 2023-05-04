@@ -146,6 +146,48 @@ class AutolnTest {
 	}
 
 	@Test
+	void frameworkWithSupplimental() {
+		String path = "src/test/resources/docs/spring-framework-with-supplemental";
+		Autoln autoln = new Autoln();
+		List<Ln> expected = new ArrayList<>();
+		expected.add(new Ln(new File(path, "2.0.x"), new File(path, "2.0.8.RELEASE")));
+		expected.add(new Ln(new File(path, "3.0.x"), new File(path, "3.0.8.RELEASE")));
+		expected.add(new Ln(new File(path, "3.1.x"), new File(path, "3.1.7.RELEASE")));
+		expected.add(new Ln(new File(path, "3.2.x"), new File(path, "3.2.10.RELEASE")));
+		expected.add(new Ln(new File(path, "4.0.x"), new File(path, "4.0.4.RELEASE")));
+		expected.add(new Ln(new File(path, "4.1.x"), new File(path, "4.1.5.RELEASE")));
+		expected.add(new Ln(new File(path, "4.2.x"), new File(path, "4.2.20.RELEASE")));
+		expected.add(new Ln(new File(path, "5.0.x"), new File(path, "5.0.19.RELEASE")));
+		expected.add(new Ln(new File(path, "5.1.x"), new File(path, "5.1.13.RELEASE")));
+		expected.add(new Ln(new File(path, "5.2.x"), new File(path, "5.2.15.RELEASE")));
+		expected.add(new Ln(new File(path, "5.2.x-SNAPSHOT"), new File(path, "5.2.16.BUILD-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "5.3.x"), new File(path, "5.3.13.RELEASE")));
+		expected.add(new Ln(new File(path, "5.3.x-SNAPSHOT"), new File(path, "5.3.14.BUILD-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "5.4.x"), new File(path, "5.4.11")));
+		expected.add(new Ln(new File(path, "5.4.x-SNAPSHOT"), new File(path, "5.4.12-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "5.5.x"), new File(path, "5.5.8")));
+		expected.add(new Ln(new File(path, "5.5.x-SNAPSHOT"), new File(path, "5.5.9-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "5.6.x"), new File(path, "5.6.10")));
+		expected.add(new Ln(new File(path, "5.6.x-SNAPSHOT"), new File(path, "5.6.11-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "5.7.x"), new File(path, "5.7.8")));
+		expected.add(new Ln(new File(path, "5.7.x-SNAPSHOT"), new File(path, "5.7.9-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "5.8.x"), new File(path, "5.8.3")));
+		expected.add(new Ln(new File(path, "5.8.x-SNAPSHOT"), new File(path, "5.8.4-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "6.0.x"), new File(path, "6.0.3")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT"), new File(path, "6.0.4-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "6.1.x"), new File(path, "6.1.0-RC1")));
+		expected.add(new Ln(new File(path, "6.1.x-SNAPSHOT"), new File(path, "6.1.0-SNAPSHOT")));
+		expected.add(new Ln(new File(path, "current"), new File(path, "6.0.3")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT"), new File(path, "6.1.0-SNAPSHOT")));
+		expected.add(
+				new Ln(new File(path, "current-SNAPSHOT/reference"), new File(path, ".current-SNAPSHOT/reference")));
+
+		List<Ln> actual = autoln.findLinks(new File(path));
+
+		assertThat(actual).containsExactlyElementsOf(expected);
+	}
+
+	@Test
 	void cloud() {
 		String path = "src/test/resources/docs/spring-cloud";
 		Autoln autoln = new Autoln();

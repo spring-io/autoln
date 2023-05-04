@@ -30,6 +30,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Autoln {
 
@@ -100,6 +102,20 @@ public class Autoln {
 		if (currentSnapshot != null) {
 			results.add(toLn(path, currentSnapshot, "current-SNAPSHOT"));
 		}
+		for (Ln ln : new ArrayList<>(results)) {
+			Path from = ln.getFrom();
+			String fromName = from.toFile().getName();
+			Path supplemental = from.resolveSibling("." + fromName);
+			File supplementalDir = supplemental.toFile();
+			if (!(supplementalDir.exists() || supplementalDir.isDirectory())) {
+				continue;
+			}
+			for (Path supplementalTo : listChildren(supplemental)) {
+				String supplementalChildName = supplementalTo.toFile().getName();
+				Path supplementalFrom = from.resolve(supplementalChildName);
+				results.add(new Ln(supplementalFrom, supplementalTo));
+			}
+		}
 		return results;
 	}
 
@@ -140,6 +156,19 @@ public class Autoln {
 			}
 		});
 		return true;
+	}
+
+	private List<Path> listChildren(Path path) {
+		try {
+			try (Stream<Path> walk = Files.walk(path, 1)) {
+				List<Path> result = walk.collect(Collectors.toList());
+				result.remove(path);
+				return result;
+			}
+		}
+		catch (IOException ex) {
+			throw new RuntimeException("Could not walk path", ex);
+		}
 	}
 
 }

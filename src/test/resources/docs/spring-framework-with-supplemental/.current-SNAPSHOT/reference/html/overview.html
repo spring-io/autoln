@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+        (function() {
+            var base_url = "https://rwinch.github.io/spring-framework/";
+            var id_to_url = {"overview-getting-started":"overview.html#overview-getting-started","overview-spring":"overview.html#overview-spring","overview-history":"overview.html#overview-history","overview-philosophy":"overview.html#overview-philosophy","overview-feedback":"overview.html#overview-feedback"}
+
+            var hash = window.location.hash.substring(1);
+            if (hash) {
+                var url = id_to_url[hash]
+                if (url) {
+                    window.location.replace(base_url + url);
+                }
+                else {
+                    window.location.replace(base_url);
+                }
+
+            }
+            else {
+                window.location.replace(base_url);
+            }
+        })();
+
+
+    </script>
+</head>
+<body>
+</body>
+</html>
