@@ -28,11 +28,10 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Autoln {
 
@@ -112,8 +111,7 @@ public class Autoln {
 				continue;
 			}
 			for (Path supplementalTo : listChildren(supplemental)) {
-				String supplementalChildName = supplementalTo.toFile().getName();
-				Path supplementalFrom = from.resolve(supplementalChildName);
+				Path supplementalFrom = from.resolve(supplemental.relativize(supplementalTo));
 				results.add(new Ln(supplementalFrom, supplementalTo));
 			}
 		}
@@ -160,12 +158,17 @@ public class Autoln {
 	}
 
 	private List<Path> listChildren(Path path) {
+		List<Path> results = new ArrayList<>();
 		try {
-			try (Stream<Path> walk = Files.walk(path, 1, FileVisitOption.FOLLOW_LINKS)) {
-				List<Path> result = walk.collect(Collectors.toList());
-				result.remove(path);
-				return result;
-			}
+			Files.walkFileTree(path, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE,
+					new SimpleFileVisitor<Path>() {
+						@Override
+						public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+							results.add(file);
+							return super.visitFile(file, attrs);
+						}
+					});
+			return results;
 		}
 		catch (IOException ex) {
 			throw new RuntimeException("Could not walk path", ex);

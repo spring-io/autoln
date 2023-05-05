@@ -179,9 +179,42 @@ class AutolnTest {
 		expected.add(new Ln(new File(path, "6.1.x-SNAPSHOT"), new File(path, "6.1.0-SNAPSHOT")));
 		expected.add(new Ln(new File(path, "current"), new File(path, "6.0.3")));
 		expected.add(new Ln(new File(path, "current-SNAPSHOT"), new File(path, "6.1.0-SNAPSHOT")));
-		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference"), new File(path, ".6.0.x-SNAPSHOT/reference")));
-		expected.add(
-				new Ln(new File(path, "current-SNAPSHOT/reference"), new File(path, ".current-SNAPSHOT/reference")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference/html/web-reactive.html"),
+				new File(path, ".6.0.x-SNAPSHOT/reference/html/web-reactive.html")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference/html/web.html"),
+				new File(path, ".6.0.x-SNAPSHOT/reference/html/web.html")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference/html/overview.html"),
+				new File(path, ".6.0.x-SNAPSHOT/reference/html/overview.html")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference/html/data-access.html"),
+				new File(path, ".6.0.x-SNAPSHOT/reference/html/data-access.html")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference/html/core.html"),
+				new File(path, ".6.0.x-SNAPSHOT/reference/html/core.html")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference/html/appendix.html"),
+				new File(path, ".6.0.x-SNAPSHOT/reference/html/appendix.html")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference/html/languages.html"),
+				new File(path, ".6.0.x-SNAPSHOT/reference/html/languages.html")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference/html/testing.html"),
+				new File(path, ".6.0.x-SNAPSHOT/reference/html/testing.html")));
+		expected.add(new Ln(new File(path, "6.0.x-SNAPSHOT/reference/html/integration.html"),
+				new File(path, ".6.0.x-SNAPSHOT/reference/html/integration.html")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT/reference/html/web-reactive.html"),
+				new File(path, ".current-SNAPSHOT/reference/html/web-reactive.html")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT/reference/html/web.html"),
+				new File(path, ".current-SNAPSHOT/reference/html/web.html")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT/reference/html/overview.html"),
+				new File(path, ".current-SNAPSHOT/reference/html/overview.html")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT/reference/html/data-access.html"),
+				new File(path, ".current-SNAPSHOT/reference/html/data-access.html")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT/reference/html/core.html"),
+				new File(path, ".current-SNAPSHOT/reference/html/core.html")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT/reference/html/appendix.html"),
+				new File(path, ".current-SNAPSHOT/reference/html/appendix.html")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT/reference/html/languages.html"),
+				new File(path, ".current-SNAPSHOT/reference/html/languages.html")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT/reference/html/testing.html"),
+				new File(path, ".current-SNAPSHOT/reference/html/testing.html")));
+		expected.add(new Ln(new File(path, "current-SNAPSHOT/reference/html/integration.html"),
+				new File(path, ".current-SNAPSHOT/reference/html/integration.html")));
 
 		List<Ln> actual = autoln.findLinks(new File(path));
 
