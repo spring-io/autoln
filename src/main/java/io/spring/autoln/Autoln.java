@@ -41,11 +41,21 @@ public class Autoln {
 	}
 
 	public void createLinks(List<Ln> links) {
+		// first delete all Ln.from to prevent deleting newly created symlinks that
+		// overlap in path
+		for (Ln link : links) {
+			try {
+				deleteRecursively(link.getFrom());
+			}
+			catch (IOException ex) {
+				throw new RuntimeException(ex);
+			}
+		}
 		for (Ln link : links) {
 			Path from = link.getFrom();
 			Path to = link.getRelativeTo();
 			try {
-				deleteRecursively(from);
+				from.getParent().toFile().mkdirs();
 				Files.createSymbolicLink(from, to);
 			}
 			catch (IOException ex) {

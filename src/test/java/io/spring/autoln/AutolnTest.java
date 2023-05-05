@@ -276,6 +276,30 @@ class AutolnTest {
 	}
 
 	@Test
+	void createLinksWhenParentFromDoesNotExist(@TempDir Path tempDir) throws IOException {
+		Autoln autoln = new Autoln();
+		List<Ln> links = new ArrayList<>();
+		File from = new File(tempDir.toFile(), "current-SNAPSHOT/reference/html/appendix.html");
+
+		File to = new File(tempDir.toFile(), ".6.0.x-SNAPSHOT/reference/html/web-reactive.html");
+		to.getParentFile().mkdirs();
+		Files.createFile(to.toPath());
+
+		links.add(new Ln(from, to));
+
+		try {
+			autoln.createLinks(links);
+
+			assertThat(Files.readSymbolicLink(from.toPath())).isRelative();
+			assertThat(Files.readSymbolicLink(from.toPath()))
+					.isEqualTo(from.toPath().getParent().relativize(to.toPath()));
+		}
+		finally {
+			from.delete();
+		}
+	}
+
+	@Test
 	void deleteRecursivelySymlinkToMissing(@TempDir Path tempDir) throws IOException {
 		Path link = tempDir.resolve("1.1.x");
 		Files.createSymbolicLink(link, tempDir.resolve("missing"));
