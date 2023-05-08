@@ -16,13 +16,13 @@
 
 plugins {
     id "application"
-    id "com.jfrog.artifactory" version "4.17.2"
+    id "com.jfrog.artifactory" version "4.31.9"
     id "java"
     id "checkstyle"
     id "io.spring.javaformat" version "0.0.22"
     id "maven-publish"
-    id 'org.asciidoctor.jvm.convert' version '3.1.0'
-    id "io.spring.nohttp" version "0.0.5.RELEASE"
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id "io.spring.nohttp" version "0.0.11"
 }
 
 apply from: "gradle/artifactory.gradle"
@@ -68,7 +68,7 @@ task generateManpageAsciiDoc(type: JavaExec) {
     dependsOn(classes)
     group = "Documentation"
     description = "Generate AsciiDoc manpage"
-    classpath(configurations.compile, configurations.annotationProcessor, sourceSets.main.runtimeClasspath)
+    classpath(configurations.compileClasspath, configurations.annotationProcessor, sourceSets.main.runtimeClasspath)
     main 'picocli.codegen.docgen.manpage.ManPageGenerator'
     args project.ext.mainClassName, "--outdir=${project.buildDir}/generated-picocli-docs", "-v", "--template-dir=src/docs/mantemplates"
 }
