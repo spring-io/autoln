@@ -29,7 +29,11 @@ jobs:
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_SECRET_ACCESS_KEY }}
         run: ./gradlew clean build --no-daemon --stacktrace
-      - uses: actions/upload-artifact@v3
+      - name: Release
+        uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
-          name: autoln-distribution
-          path: build/distributions/*
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
+          prerelease: true
+          title: Development Build
+          files: build/distributions/*
