@@ -28,7 +28,7 @@ artifactory {
             }
         }
         defaults {
-            publishConfigs('mavenJava')
+            publications('mavenJava')
         }
     }
 }
