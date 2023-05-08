@@ -56,8 +56,9 @@ class AutolnCreateCommandTest {
 	void createWhenProjectDirAndScanDirThenError() {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 
-		int status = test.getCommandLine().execute("create", "--scan-dir=src/test/resources/docs/spring-boot",
-				"--project-dir=src/test/resources/docs/spring-boot");
+		int status = test.getCommandLine()
+			.execute("create", "--scan-dir=src/test/resources/docs/spring-boot",
+					"--project-dir=src/test/resources/docs/spring-boot");
 
 		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).isNotEmpty();
@@ -68,8 +69,8 @@ class AutolnCreateCommandTest {
 	void createWhenProjectDirAndMaxDepthThenError() {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 
-		int status = test.getCommandLine().execute("create", "--project-dir=src/test/resources/docs/spring-boot",
-				"--maxdepth=1");
+		int status = test.getCommandLine()
+			.execute("create", "--project-dir=src/test/resources/docs/spring-boot", "--maxdepth=1");
 
 		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("Missing required argument");
@@ -91,8 +92,8 @@ class AutolnCreateCommandTest {
 	void createWhenProjectDirNotDirThenError() {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 
-		int status = test.getCommandLine().execute("create",
-				"--project-dir=src/test/resources/docs/spring-framework/.autoln-scan");
+		int status = test.getCommandLine()
+			.execute("create", "--project-dir=src/test/resources/docs/spring-framework/.autoln-scan");
 
 		assertThat(status).isNotEqualTo(this.SUCCESS_STATUS);
 		assertThat(test.getStdErr()).contains("is not a Directory");
@@ -107,8 +108,8 @@ class AutolnCreateCommandTest {
 		TestCommandLine test = TestCommandLine.create(new AutolnCommand());
 		Path springFrameworkProject = projectDir.resolve("docs/spring-framework");
 
-		int status = test.getCommandLine().execute("create",
-				"--project-dir=" + springFrameworkProject.toFile().getAbsolutePath());
+		int status = test.getCommandLine()
+			.execute("create", "--project-dir=" + springFrameworkProject.toFile().getAbsolutePath());
 
 		assertThat(status).isEqualTo(this.SUCCESS_STATUS);
 

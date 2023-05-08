@@ -268,7 +268,7 @@ class AutolnTest {
 
 			assertThat(Files.readSymbolicLink(from.toPath())).isRelative();
 			assertThat(Files.readSymbolicLink(from.toPath()))
-					.isEqualTo(from.toPath().getParent().relativize(to.toPath()));
+				.isEqualTo(from.toPath().getParent().relativize(to.toPath()));
 		}
 		finally {
 			from.delete();
@@ -292,7 +292,7 @@ class AutolnTest {
 
 			assertThat(Files.readSymbolicLink(from.toPath())).isRelative();
 			assertThat(Files.readSymbolicLink(from.toPath()))
-					.isEqualTo(from.toPath().getParent().relativize(to.toPath()));
+				.isEqualTo(from.toPath().getParent().relativize(to.toPath()));
 		}
 		finally {
 			from.delete();

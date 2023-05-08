@@ -35,7 +35,7 @@ public class ExtendedPathAssert extends AbstractPathAssert<ExtendedPathAssert> {
 	public ExtendedPathAssert isRelativeSymlinkTo(String path) throws IOException {
 		isSymbolicLink();
 		assertThatPath(Files.readSymbolicLink(this.actual)).isRelative()
-				.isEqualTo(this.actual.getParent().relativize(this.actual.getParent().resolve(path)));
+			.isEqualTo(this.actual.getParent().relativize(this.actual.getParent().resolve(path)));
 		return this;
 	}
 
