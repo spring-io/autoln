@@ -146,7 +146,7 @@ class AutolnTest {
 	}
 
 	@Test
-	void frameworkWithSupplimental() {
+	void frameworkWithSupplemental() {
 		String path = "src/test/resources/docs/spring-framework-with-supplemental";
 		Autoln autoln = new Autoln();
 		List<Ln> expected = new ArrayList<>();
