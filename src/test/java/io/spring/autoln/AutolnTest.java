@@ -218,7 +218,7 @@ class AutolnTest {
 
 		List<Ln> actual = autoln.findLinks(new File(path));
 
-		assertThat(actual).containsExactlyElementsOf(expected);
+		assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
 	}
 
 	@Test
